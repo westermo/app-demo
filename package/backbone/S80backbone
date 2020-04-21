@@ -1,0 +1,25 @@
+#!/bin/sh
+
+#[ -f /etc/backbone/config.json -a -f /etc/backbone/id ] || exit 0
+
+case "$1" in
+	start)
+		printf "Starting backbone: "
+		start-stop-daemon -S -x /usr/sbin/backbone
+		[ $? = 0 ] && echo "OK" || echo "FAIL"
+		;;
+	stop)
+		printf "Stopping backbone: "
+		start-stop-daemon -K -q -x /usr/sbin/backbone
+		[ $? = 0 ] && echo "OK" || echo "FAIL"
+		;;
+	restart|reload)
+		$0 stop
+		$0 start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+esac
+
+exit 0

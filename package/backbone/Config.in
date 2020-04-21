@@ -1,0 +1,15 @@
+config BR2_PACKAGE_BACKBONE
+	bool "backbone"
+	select BR2_PACKAGE_JANSSON
+	select BR2_PACKAGE_LIBEV
+	select BR2_PACKAGE_LIBTEAM
+	select BR2_PACKAGE_NFTABLES
+	select BR2_PACKAGE_SMCROUTE
+	select BR2_PACKAGE_IPROUTE2
+	help
+	  Given four ports, n{1,2} and s{1, 2}, creates two link
+	  aggregates, north and south, using a custom LACP-like
+	  protocol. The LAGs are bridged and routes are setup in
+	  accordance with the config file in
+	  /etc/backbone.json. Backbone traffic is then routed to/from
+	  the host via the lan interface.
