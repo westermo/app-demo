@@ -5,6 +5,7 @@
 ################################################################################
 
 BACKBONE_VERSION = 1
+BACKBONE_LICENSE = MIT
 BACKBONE_DEPENDENCIES = iproute2 jansson libev libteam nftables smcroute
 BACKBONE_SITE_METHOD = local
 BACKBONE_SITE = $(BR2_EXTERNAL_DEMO_PATH)/src/backbone
