@@ -17,7 +17,6 @@ int loglevel = LOG_NOTICE;
 extern char *__progname;
 
 /* Configurable parameters */
-uint8_t  priority = 0x80;
 uint16_t vid = 2;
 struct lag_config lag_confs[2] = {
 	{ .name = "west" },
@@ -319,7 +318,7 @@ static int config_parse(char *file)
 {
 	json_error_t jerr;
 	json_t *cfg;
-	int p = -1, v = -1;
+	int v = -1;
 
 	cfg = json_load_file(file, 0, &jerr);
 	if (!cfg) {
@@ -328,17 +327,12 @@ static int config_parse(char *file)
 		return 1;
 	}
 
-	if (json_unpack_ex(cfg, &jerr, 0, "{ s:i s:i s:[ss!] s:[ss!] }",
-			   "prio", &p, "vid", &v,
+	if (json_unpack_ex(cfg, &jerr, 0, "{ s:i s:[ss!] s:[ss!] }",
+			   "vid", &v,
 			   "west", &lag_confs[0].port[0], &lag_confs[0].port[1],
 			   "east", &lag_confs[1].port[0], &lag_confs[1].port[1])) {
 		ERR("Invalid configuration file %s: %s",
 		    file, jerr.text);
-		return 1;
-	}
-
-	if (p < 0 || p > 255) {
-		ERR("Priority out of range [0-255], was %d\n", p);
 		return 1;
 	}
 
@@ -347,7 +341,6 @@ static int config_parse(char *file)
 		return 1;
 	}
 
-	priority = p;
 	vid = v;
 
 	/* TODO: Don't leak memory */
