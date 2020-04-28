@@ -54,6 +54,9 @@ Once the build is done, your app image is available in
 Available Demos
 ---------------
 
+The default login credentials for all demos are `root` without any
+password.
+
 [Backbone](src/backbone/README.md)
 
 
