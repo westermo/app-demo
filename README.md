@@ -57,7 +57,7 @@ Available Demos
 The default login credentials for all demos are `root` without any
 password.
 
-[Backbone](src/backbone/README.md)
+- [Backbone](src/backbone/README.md): link-aggregate (lag) and daisy-chain backbone demo
 
 
 Repository Layout

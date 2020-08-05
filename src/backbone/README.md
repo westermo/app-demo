@@ -1,8 +1,8 @@
-Backbone: link-aggregate and network backbone application demo
-==============================================================
+Link aggregate (lag) and network backbone application
+=====================================================
 
-The backbone application manages a router node in a "centipede"
-network topology.  The setup can look like this:
+The `backbone` application manages a router node in a "centipede" or
+daisy-chain like network topology.  The setup can look like this:
 
 ```
         .---------.     .---------.       .---------.
