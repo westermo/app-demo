@@ -1,8 +1,8 @@
-Backone
-=======
+Backbone: link-aggregate and network backbone application demo
+==============================================================
 
 The backbone application manages a router node in a "centipede"
-network topology:
+network topology.  The setup can look like this:
 
 ```
         .---------.     .---------.       .---------.
@@ -21,17 +21,17 @@ network topology:
 
 Each _node_ on the backbone maintains a two-port link aggregate to
 both of its neighbors, one _westward_ facing (w0,w1) and one
-_eastward_ ditto (e0,e1).
+_eastward_ facing (e0,e1).
 
-All nodes on the backbone will exchange _hello_ messages with their
-neighbors. The information in these messages are used to determine the
-local node's position in the daisy-chain relative to the chain's
+All nodes on the backbone exchange _hello_ messages with their
+neighbors.  The information in these messages is used to determine
+each node's position in the daisy-chain relative to the chain's
 _head_.
 
-A node will determine that it is the head node when it receives hello
-messages from itself, i.e. when either w0/w1 or e0/e1 are directly
-connected (H). Other nodes will then _attach_ to the head node,
-increasing the ID by one for each hop.
+A node determines it is the head node when it receives hello messages
+from itself, i.e. when either w0/w1 or e0/e1 are directly connected
+(H). Other nodes will then _attach_ to the head node, increasing the
+ID by one for each hop.
 
 Once a node has figured out its ID, it will use that to select the
 backbone IP address `192.168.255.{ID}/24`.
