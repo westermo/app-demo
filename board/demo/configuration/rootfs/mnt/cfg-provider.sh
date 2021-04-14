@@ -8,4 +8,4 @@ ip addr add 10.0.0.89/24 dev eth0
 # modify /mnt/config.cfg, or even generate it from scratch.
 
 # Start our DHCP/TFTP server Dnsmasq
-exec dnsmasq -C /mnt/dnsmasq.conf
+exec dnsmasq -C /etc/dnsmasq.conf
