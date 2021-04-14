@@ -1,0 +1,10 @@
+config BR2_PACKAGE_CONFIGURATION
+	bool "configuration"
+	select BR2_PACKAGE_JANSSON
+	select BR2_PACKAGE_LIBEV
+	select BR2_PACKAGE_LIBTEAM
+	select BR2_PACKAGE_NFTABLES
+	select BR2_PACKAGE_SMCROUTE
+	select BR2_PACKAGE_IPROUTE2
+	help
+	  Fill in some help text here.
