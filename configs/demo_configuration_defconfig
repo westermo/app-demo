@@ -1,4 +1,4 @@
-BR2_x86_64=n
+#BR2_x86_64=y
 BR2_powerpc=y
 BR2_powerpc_e5500=y
 BR2_ENABLE_DEBUG=y
