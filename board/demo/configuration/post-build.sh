@@ -11,8 +11,3 @@ echo "VERSION=1.0.0"                              >>$TARGET_DIR/etc/os-release
 echo "ID=configuration"                                >>$TARGET_DIR/etc/os-release
 echo "VERSION_ID=1.0.0"                           >>$TARGET_DIR/etc/os-release
 echo "PRETTY_NAME=\"Configuration Demo\""              >>$TARGET_DIR/etc/os-release
-
-# Provide symbolic names for routes added by the configuration daemon
-if ! grep -q configuration $TARGET_DIR/etc/iproute2/rt_protos; then
-    echo "254\tconfiguration" >>$TARGET_DIR/etc/iproute2/rt_protos
-fi
