@@ -1,5 +1,5 @@
-DHCP-Boot application
-=====================
+DHCP-Boot application, download WeOS configuration from application
+===================================================================
 
 Introduction
 -------------
@@ -62,7 +62,7 @@ interface=eth0
 dhcp-option=66,"10.0.0.1"
 dhcp-option=67,"config.cfg"
 
-dhcp-range=tag:eth0,10.0.0.2,10.0.0.10,1h
+dhcp-range=tag:eth0,10.0.0.2,10.0.0.3,1h
 ```
 
 **cfg-provider.sh**
@@ -71,7 +71,7 @@ dhcp-range=tag:eth0,10.0.0.2,10.0.0.10,1h
 
 # Set up the default interface
 ip link set dev eth0 up
-ip addr add 10.0.0.1/24 dev eth0
+ip addr add 10.0.0.1/30 dev eth0
 
 # Start our DHCP/TFTP server Dnsmasq
 exec dnsmasq -C /etc/dnsmasq.conf
