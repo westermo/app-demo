@@ -1,2 +1,2 @@
 source "$BR2_EXTERNAL_DEMO_PATH/package/backbone/Config.in"
-source "$BR2_EXTERNAL_DEMO_PATH/package/configuration/Config.in"
+source "$BR2_EXTERNAL_DEMO_PATH/package/dhcp-boot/Config.in"

@@ -1,18 +1,18 @@
-Download WeOS cfg from configuration application
-=====================================================
+DHCP-Boot application
+=====================
 
-Introduktion
+Introduction
 -------------
 
-The `configuration` application is an example of how a container application could
-create or alter a configuration file. In a real world scenario a non nativ configuration file
-could be converted to OS nativ format. 
+The `dhcp-boot` application is an example of how a container application could
+create or alter a configuration file. In a real world scenario a non native configuration file
+could be converted to OS native format. 
 In this simple example the application only changes the hostname to verify that the 
 configuration has been received from the application. The host will download
-the file from th eapplication using TFTP and use it as a new running config:
+the file from th application using TFTP and use it as a new running config:
 
 ```
-Host            #  Configuration Application
+Host            #  Dhcp-boot Application
                 #  .-------------.  .-------------.
                 #  | DHCP-server |  | TFTP-server |
                 #  '------+------'  '------+------'
@@ -59,10 +59,10 @@ enable-tftp
 tftp-root=/mnt
 
 interface=eth0
-dhcp-option=66,"10.0.0.89"
+dhcp-option=66,"10.0.0.1"
 dhcp-option=67,"config.cfg"
 
-dhcp-range=tag:eth0,10.0.0.1,10.0.0.40,1h
+dhcp-range=tag:eth0,10.0.0.2,10.0.0.10,1h
 ```
 
 **cfg-provider.sh**
@@ -71,7 +71,7 @@ dhcp-range=tag:eth0,10.0.0.1,10.0.0.40,1h
 
 # Set up the default interface
 ip link set dev eth0 up
-ip addr add 10.0.0.89/24 dev eth0
+ip addr add 10.0.0.1/24 dev eth0
 
 # Start our DHCP/TFTP server Dnsmasq
 exec dnsmasq -C /etc/dnsmasq.conf
@@ -121,40 +121,22 @@ After reboot the container application starts up, the host fetches the new
 running-config from the container, and that config is applied, resulting in
 the `hostname` changing to "Host_name_from_app".
 
-### Creation of pre-config.cfg
-pre-config will be stored on USB media.
-
-<pre class="cli-example">
-example:/#> copy factory-config running-config
-Applying configuration.
-example:/#> configure system
-example:/config/system/#> hostname Host
-example:/config/system/#> leave
-Applying configuration.
-Configuration activated.  Remember "copy run start" to save to flash (NVRAM).
-hostname-from-container:/#> cp running-config usb://pre-config.cfg
-Copying running-config to /usb/pre-config.cfg ...
-Done.
-hostname-from-container:/#> copy factory-config running-config
-Applying configuration.
-</pre>
-
 ### creation of config/net-config.cfg
 net-config will be stored on USB media.
 
 Configure the app that will host/run the files we have created:
 
 <pre class="cli-example">
-example:/#> configure app cfg configuration
+example:/#> configure app cfg dhcp-boot
 example:/config/app-cfg/#> share path /usb/cfg-provider.sh as /bin/cfg-provider.sh create
 example:/config/app-cfg/#> share path /usb/dnsmasq.conf as /etc/dnsmasq.conf create
 example:/config/app-cfg/#> share path /usb as /mnt
 example:/config/app-cfg/#> end
 </pre>
 
-Along with the app, a VETH pair is created by default. Per default it will
-have the same name as the app on the host side, and `eth0` on the container
-side. We need to configure DHCP for the host side interface:
+Along with the app, a VETH pair is created. By default it will have the same name as the
+app on the host side, and `eth0` on the container side. 
+We need to configure DHCP for the host side interface:
 
 <pre class="cli-example">
 example:/config/#> iface cfg
@@ -168,7 +150,23 @@ running-config:
 
 <pre class="cli-example">
 example:/#> copy running-config usb://config/net-config.cfg
-example:/#> copy factory-config running-config
+Copying running-config to /usb/config/net-config.cfg ...
+example:/#> Done.
+</pre>
+
+### Creation of pre-config.cfg
+pre-config will be stored on USB media. Simply change the hostname to Host.
+
+<pre class="cli-example">
+example:/#> configure system
+example:/config/system/#> hostname Host
+example:/config/system/#> leave
+Applying configuration.
+Configuration activated.  Remember "copy run start" to save to flash (NVRAM).
+Host:/#> cp running-config usb://pre-config.cfg
+Copying running-config to /usb/pre-config.cfg ...
+Done.
+Host:/#> copy factory-config running-config
 Applying configuration.
 </pre>
 
@@ -182,6 +180,6 @@ example:/boot/#> leave
 example:/#> reboot
 </pre>
 
-After reboot the container application starts up, the host fetches the new
-running-config from the container, and that config is applied, resulting in
-the `hostname` beeing changed to "Host_name_from_app".
+After reboot the container application starts and changed the hostname "Host" to
+"Host_name_from_app" and saves the new configuration in usb/config.cfg. The host fetches 
+and applies the new running-config from the container, resulting in the `hostname` being changed.

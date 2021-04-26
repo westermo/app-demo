@@ -1,7 +1,6 @@
 #include <ev.h>
 #include <fcntl.h>
 #include <ifaddrs.h>
-#include <jansson.h>
 #include <signal.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -18,7 +17,7 @@ extern char *__progname;
 /* Runtime data */
 
 
-static int configuration_run(struct ev_loop *loop)
+static int dhcp_boot_run(struct ev_loop *loop)
 {
 	char cmd[40];
 	int err;
@@ -182,5 +181,5 @@ int main(int argc, char **argv)
 		ev_signal_start(loop, &sig->watcher);
 	}
 
-	return configuration_run(loop);
+	return dhcp_boot_run(loop);
 }
