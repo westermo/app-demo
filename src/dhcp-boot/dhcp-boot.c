@@ -1,6 +1,4 @@
 #include <ev.h>
-#include <fcntl.h>
-#include <ifaddrs.h>
 #include <signal.h>
 #include <stdint.h>
 #include <stdio.h>
