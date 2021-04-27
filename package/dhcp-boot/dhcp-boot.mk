@@ -6,7 +6,7 @@
 
 DHCP_BOOT_VERSION = 1
 DHCP_BOOT_LICENSE = MIT
-DHCP_BOOT_DEPENDENCIES = iproute2 jansson libev libteam nftables smcroute
+DHCP_BOOT_DEPENDENCIES = libev
 DHCP_BOOT_SITE_METHOD = local
 DHCP_BOOT_SITE = $(BR2_EXTERNAL_DEMO_PATH)/src/dhcp-boot
 
