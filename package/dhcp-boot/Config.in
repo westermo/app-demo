@@ -1,5 +1,4 @@
 config BR2_PACKAGE_DHCP_BOOT
 	bool "dhcp-boot"
-	select BR2_PACKAGE_LIBEV
 	help
 	  Fill in some help text here.

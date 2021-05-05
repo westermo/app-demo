@@ -1,13 +1,7 @@
-CFLAGS += -Wall -Wextra -Werror -Wno-unused-parameter -Wno-strict-aliasing
-CPPFLAGS += -D_GNU_SOURCE
-LOADLIBES += -lev
 
-all: dhcp-boot
-
-dhcp-boot:
+all:
 
 install:
 	@mkdir -p \
-		$(DESTDIR)/$(PREFIX)/sbin/ \
-		$(DESTDIR)/$(PREFIX)/lib/dhcp-boot/
-	@cp dhcp-boot $(DESTDIR)/$(PREFIX)/sbin/
+		$(DESTDIR)/$(PREFIX)/sbin/
+	@cp $(BR2_EXTERNAL_DEMO_PATH)/src/dhcp-boot/create-config.sh $(DESTDIR)/$(PREFIX)/sbin/
