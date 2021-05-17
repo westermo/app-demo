@@ -1,0 +1,4 @@
+config BR2_PACKAGE_DHCP_BOOT
+	bool "dhcp-boot"
+	help
+	  Fill in some help text here.
