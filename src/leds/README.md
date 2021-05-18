@@ -4,35 +4,13 @@ The `Leds` application demonstrates how to read and write to the leds device fil
 
 ## Limitations
 
-From the `HOST` a path is shared to the `led device file` for a physical port and the path is then mounted in the container when LXC starts the container. 
-This results in the limitation that access to physical leds is not atomic and no synchronization is done between containers or HOST. All container app's having a shared path to the device file can alter its value.
-
-As of now containers must be stored on an external USB device format with a journaling file system e.g. ext2. This can be done with:
-```
-umount /dev/sda1
-mkfs.ext2 /dev/sda1
-mount /dev/sda1 /usb
-```
-
-All data on USB device will be lost upon formating.
-
-## Build process
-To build the `Leds` application following recipe can be used:
-```
-make clean 
-make demo_leds_defconfig
-make leds-rebuild all
-```
-
-Install the container image on the device using:
-```
-app image import tftp://<server-ip>/<container-image>
-```
+From the `Host` a path is shared to the `led device file` for a physical port and the path is then mounted in the container when LXC starts the container. 
+This results in the limitation that access to physical leds is not atomic and no synchronization is done between containers or Host. All container app's having a shared path to the device file can alter its value.
 
 
 ## Configuration
 
-On the `HOST` symlinks are defined for the device files in `/sys/class/leds/` directory. To create and configure a container application `bar` of image type `leds` follow these steps:
+On the `Host` symlinks are defined for the device files in `/sys/class/leds/` directory. To create and configure a container application `bar` of image type `leds` follow these steps:
 
 
 ```bash
@@ -50,7 +28,7 @@ TYPE  HOST              GUEST             OPTS
 veth  bar               eth0 
 ```
 
-By default all container applications have a veth pair created that allows them to connect to the HOST. To setup a shared path between the HOST and the container we use the `shared` command. Symlinks in /sys/class/leds/ are linking to files in /sys/devices/ and this means that we have to share the /sys path between HOST and container.
+By default all container applications have a veth pair created that allows them to connect to the Host. To setup a shared path between the Host and the container we use the `shared` command. Symlinks in /sys/class/leds/ are linking to files in /sys/devices/ and this means that we have to share the /sys path between Host and container.
 
 ```bash
 viper-65-f7-e0:/config/app-bar/#> share path /sys as /sys
@@ -97,8 +75,10 @@ Set led ON:  leds -1 ethX5:yellow:state
 
 ```
 
-## Running a command in the container from the HOST
-It is also possible to run a command inside the container from the outside HOST command line:
+## Executing a command in the container from the Host
+From the Host shell command line we can execute a command inside the container shell using lxc-attach.
+
+Example:
 ```
 lxc-attach -n bar -- leds -1 ethX8:yellow:state
 ```

@@ -227,7 +227,7 @@ int main(int argc, char **argv)
 		ev_signal_start(loop, &sig->watcher);
 	}
 
-	/* initialise timer watcher (start after 0 sec, repeat every 2 sec) */
+	/* initialise timer watcher (start after 0 sec, repeat every -t sec) */
 	ev_timer_init(&timeout_watcher, timeout_cb, 0., timeout_repeat);
 	ev_timer_start(loop, &timeout_watcher);
 
