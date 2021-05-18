@@ -22,6 +22,8 @@ Using the [External Tree][] facility in Buildroot, app-demo is layered
 on top of netbox, which in turn is layered on top of Buildroot itself
 using the same mechanism.
 
+- Test [backbone.zip][] bar
+- Test [dhcp-boot.zip][] foo
 
 Building a Demo
 ---------------
