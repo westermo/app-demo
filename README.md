@@ -54,6 +54,9 @@ Available Demos
 The default login credentials for all demos are `root` without any
 password.
 
+- Test [backbone.zip][] bar
+- Test [dhcp-boot.zip][] foo
+
 | **README**     | **Nightly Image**  | **Description**                                  |
 |----------------|--------------------|--------------------------------------------------|
 | [Backbone][]   | [backbone.zip][]   | Link aggregate (lag) and daisy-chain backbone    |
