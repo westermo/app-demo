@@ -22,8 +22,6 @@ Using the [External Tree][] facility in Buildroot, app-demo is layered
 on top of netbox, which in turn is layered on top of Buildroot itself
 using the same mechanism.
 
-- Test [backbone.zip][] bar
-- Test [dhcp-boot.zip][] foo
 
 Building a Demo
 ---------------
@@ -55,9 +53,6 @@ Available Demos
 
 The default login credentials for all demos are `root` without any
 password.
-
-- Test [backbone.zip][] bar
-- Test [dhcp-boot.zip][] foo
 
 | **README**     | **Nightly Image**  | **Description**                                  |
 |----------------|--------------------|--------------------------------------------------|
@@ -95,7 +90,7 @@ target architecture.
 
 
 [NetBox]:           https://github.com/westermo/netbox
-[Buildroot Manual]: https://buildroot.org/downloads/manual/manual.html)
+[Buildroot Manual]: https://buildroot.org/downloads/manual/manual.html
 [External Tree]:    https://buildroot.org/downloads/manual/manual.html#outside-br-custom
 [Example layout]:   https://buildroot.org/downloads/manual/manual.html#_example_layout
 [Backbone]:         src/backbone/README.md
