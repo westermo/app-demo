@@ -54,15 +54,15 @@ Available Demos
 The default login credentials for all demos are `root` without any
 password.
 
-| **README**    | **Nightly Image** | **Description**                                  |
-|---------------|-------------------|--------------------------------------------------|
-| [Backbone][]  | [backbone.zip][]  | Link aggregate (lag) and daisy-chain backbone    |
-| [DHCP Boot][] | [dhcp-boot.zip][] | Convert .conf and net boot WeOS from a container |
+| **README**     | **Nightly Image**  | **Description**                                  |
+|----------------|--------------------|--------------------------------------------------|
+| [Backbone][]   | [backbone.zip][]   | Link aggregate (lag) and daisy-chain backbone    |
+| [DHCP Boot][]  | [dhcp-boot.zip][]  | Convert .conf and net boot WeOS from a container |
 
 > **Note:** Currently the builds and defconfigs available here target
->           the Westermo _Coronet_ platform.  Other platforms planned
->           to be supported are the _Dagger_ and _Zero_ platforms.  
->           For details, see the NetBox project.
+>           the Westermo _Coronet_ platform.  Other platforms planned to
+>           be supported are the _Dagger_ and _Zero_ platforms.  For
+>           details, see the NetBox project.
 
 
 Repository Layout
@@ -71,15 +71,14 @@ Repository Layout
 The app-demo project follows the [Example layout][] proposed in the
 Buildroot manual.
 
-- `board/demo/${TARGET}`: Customizations for each target.
-- `configs/`: Default configurations.
+- `board/demo/${TARGET}`: Customizations for each target
+- `configs/`: Default configurations
 - `netbox/`: Git submodule pointing to the netbox repo which in turn
-  contains a submodule reference to Buildroot.
-- `output/`: All generated artifacts are stored in this here.
+  contains a submodule reference to Buildroot
+- `output/`: All generated artifacts are stored in this here
 - `package/`: Recipes for building some piece of software, either by
-  downloading a tarball or by referencing a directory in `src/`.
-- `src/`: Source code for the sample applications developed by
-  Westermo.
+  downloading a tarball or by referencing a directory in `src/`
+- `src/`: Source code for sample applications developed by Westermo
 
 This is an _example_ of how an external Buildroot tree can be set up and
 structured, most of it can be changed to better suit the needs of both
@@ -88,6 +87,7 @@ assumptions on the application container even using Buildroot at all;
 you are free to use any build system as long as the result is a SquashFS
 image containing an executable `/sbin/init` which is compatible with the
 target architecture.
+
 
 [NetBox]:           https://github.com/westermo/netbox
 [Buildroot Manual]: https://buildroot.org/downloads/manual/manual.html)
