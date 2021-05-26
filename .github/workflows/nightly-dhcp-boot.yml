@@ -2,7 +2,7 @@ name: DHCP-BOOT image artifacts
 
 on:
   push:
-    branches: [master, workflow]
+    branches: [master]
 
 jobs:
   build:
