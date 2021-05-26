@@ -25,7 +25,7 @@ struct lag_config lag_confs[2] = {
 
 /* Runtime data */
 static struct lag *lags[2] = { NULL, NULL };
-struct backbone_id current_id = { 0 };
+struct backbone_id current_id;
 
 static int set_station(void)
 {
@@ -94,9 +94,11 @@ static int backbone_cb_id(struct backbone_id *id)
 
 static bool backbone_cb_update(void)
 {
-	struct backbone_id new = { 0 }, *id;
+	/* struct backbone_id = {{ 0 }}, *id; */  /* correctly zero-initialized */
+	struct backbone_id new, *id;
 	int d, p;
 
+	memset(&new, 0, sizeof new);
 	memcpy(new.station, current_id.station, ETH_ALEN);
 
 	/* First pass, iterate over all of our neighbors, find the
@@ -355,6 +357,8 @@ int main(int argc, char **argv)
 	int logcons    = 0;
 	int log_opts   = LOG_NDELAY | LOG_PID;
 	int c;
+
+	memset(&current_id, 0, sizeof current_id);
 
 	while ((c = getopt(argc, argv, "hl:nsv")) != EOF) {
 		switch (c) {
