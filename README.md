@@ -36,7 +36,7 @@ configured. To list the available configuration targets, run `make
 list-defconfigs`.
 
 To select, for example, the `backbone` demo, run `make
-demo_backbone_defconfig`. A curses based configuration interface can
+backbone_coronet_defconfig`. A curses based configuration interface can
 be summoned with `make menuconfig` to select any additional packages
 to build.
 
@@ -51,17 +51,19 @@ Once the build is done, your app image is available in
 Available Demos
 ---------------
 
-The default login credentials for all demos are `root` without any
+The default login credentials for all demo apps are `root` without any
 password.
 
-| **README**     | **Nightly Image**  | **Description**                                  |
-|----------------|--------------------|--------------------------------------------------|
-| [Backbone][]   | [backbone.zip][]   | Link aggregate (lag) and daisy-chain backbone    |
-| [DHCP Boot][]  | [dhcp-boot.zip][]  | Convert .conf and net boot WeOS from a container |
+| **Architecture** | **Platform Code Name** | **Backbone App** | **Dhcp-boot App** |
+|------------------|------------------------|-----------------------|----------------------|
+| powerpc          | Coronet                | [backbone-coronet][]       | [dhcp-boot-coronet][]       |
+| arm cortex-a9    | Dagger                 | [backbone-dagger][]        | [dhcp-boot-dagger][]                  |
+| x86_64           | Zero                   | [backbone-zero][]          | [dhcp-boot-zero][]          |
 
-> **Note:** Currently the builds and defconfigs available here target
->           the Westermo _Coronet_ platform.  Other platforms planned to
->           be supported are the _Dagger_ and _Zero_ platforms.  For
+
+> **Note:** Currently the nightly builds and defconfigs available here target
+>           the Westermo _Coronet_, _Dagger_ and _Zero_ platforms.  Other platforms planned to will 
+>           be supported later.  For
 >           details, see the NetBox project.
 
 
@@ -97,3 +99,11 @@ target architecture.
 [DHCP Boot]:        src/dhcp-boot/README.md
 [backbone.zip]:     https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-backbone-coronet.zip
 [dhcp-boot.zip]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-coronet.zip
+
+[backbone-coronet]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-backbone-coronet.zip
+[backbone-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-backbone-zero.zip
+[backbone-dagger]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-backbone-dagger.zip
+
+[dhcp-boot-coronet]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-coronet.zip
+[dhcp-boot-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-zero.zip
+[dhcp-boot-dagger]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-dagger.zip
