@@ -23,8 +23,8 @@ jobs:
       - name: upload hash file
         uses: actions/upload-artifact@v2
         with:
-          name: sha1
-          path: ${GITHUB_SHA}
+          name: ${GITHUB_SHA}.sha1
+          path: ${GITHUB_SHA}.sha1
       - name: upload artifacts
         uses: actions/upload-artifact@v2
         with:
