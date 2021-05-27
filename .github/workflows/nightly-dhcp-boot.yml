@@ -2,7 +2,7 @@ name: DHCP-BOOT image artifacts
 
 on:
   push:
-    branches: [master, workflow]
+    branches: [master]
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
       - name: upload hash file
         uses: actions/upload-artifact@v2
         with:
-          name: hash.sha1
+          name: sha1
           path: output/images/hash.sha1
       - name: upload artifacts
         uses: actions/upload-artifact@v2
