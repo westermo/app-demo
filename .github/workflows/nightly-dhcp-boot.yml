@@ -17,15 +17,15 @@ jobs:
         run: make dhcp-boot_${{ matrix.platform }}_defconfig
       - name: build
         run: make
-      - name: create checksum file
-      - name: ghaction-checksum-sign-artifact
-        uses: tristan-weil/ghaction-checksum-sign-artifact@v1.0.1
+      - name: generate release hashes
+        uses: MCJack123/ghaction-Generate-Release-Hashes@v2
         with:
-          path: app-demo-dhcp-boot-${{ matrix.platform }}
-      - name: upload checksum file
+          hash-type: md5
+          file-name: app-demo-dhcp-boot-${{ matrix.platform }}.md5
+      - name: upload hash file
       - uses: actions/upload-artifact@v2
         with:
-          name: SHA256*
+          name: app-demo-dhcp-boot-${{ matrix.platform }}.md5
           path: output/images/*
       - name: upload artifacts
         uses: actions/upload-artifact@v2
