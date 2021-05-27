@@ -12,11 +12,19 @@ jobs:
       matrix:
         platform: [coronet, dagger, zero]
     steps:
-      - uses: actions/checkout@v2
+      - name: checkout code
+        uses: actions/checkout@v2
       - name: defconfig
         run: make dhcp-boot_${{ matrix.platform }}_defconfig
       - name: build
         run: make
+      - name: create commit hash file
+        run: echo ${GITHUB_SHA} > output/images/hash.sha1
+      - name: upload hash file
+        uses: actions/upload-artifact@v2
+        with:
+          name: sha1
+          path: output/images/hash.sha1
       - name: upload artifacts
         uses: actions/upload-artifact@v2
         with:
