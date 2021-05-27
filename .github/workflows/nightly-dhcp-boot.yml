@@ -2,7 +2,7 @@ name: DHCP-BOOT image artifacts
 
 on:
   push:
-    branches: [master]
+    branches: [master, workflow]
 
 jobs:
   build:
@@ -17,6 +17,16 @@ jobs:
         run: make dhcp-boot_${{ matrix.platform }}_defconfig
       - name: build
         run: make
+      - name: create checksum file
+      - uses: MCJack123/ghaction-generate-release-hashes@v1
+        with:
+          hash-type: md5
+          file-name: md5-${{ matrix.platform }}.txt
+      - name: upload checksum file
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Asset Hashes
+          path: md5-${{ matrix.platform }}.txt
       - name: upload artifacts
         uses: actions/upload-artifact@v2
         with:
