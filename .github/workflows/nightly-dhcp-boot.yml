@@ -12,7 +12,8 @@ jobs:
       matrix:
         platform: [coronet, dagger, zero]
     steps:
-      - uses: actions/checkout@v2
+      - name: checkout code
+        uses: actions/checkout@v2
       - name: defconfig
         run: make dhcp-boot_${{ matrix.platform }}_defconfig
       - name: build
@@ -23,7 +24,7 @@ jobs:
           hash-type: md5
           file-name: app-demo-dhcp-boot-${{ matrix.platform }}.md5
       - name: upload hash file
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: app-demo-dhcp-boot-${{ matrix.platform }}.md5
           path: output/images/*
