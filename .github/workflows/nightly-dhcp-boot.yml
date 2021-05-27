@@ -18,6 +18,8 @@ jobs:
         run: make dhcp-boot_${{ matrix.platform }}_defconfig
       - name: build
         run: make
+      - name: create commit hash file
+        run: echo echo ${GITHUB_SHA} > output/images/${{ matrix.platform }}.hash
       - name: upload artifacts
         uses: actions/upload-artifact@v2
         with:
