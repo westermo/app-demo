@@ -19,12 +19,12 @@ jobs:
       - name: build
         run: make
       - name: create commit hash file
-        run: echo "" > ${GITHUB_SHA}.sha1
+        run: echo "" > output/images/${GITHUB_SHA}.sha1
       - name: upload hash file
         uses: actions/upload-artifact@v2
         with:
           name: ${GITHUB_SHA}.sha1
-          path: ${GITHUB_SHA}.sha1
+          path: output/images/${GITHUB_SHA}.sha1
       - name: upload artifacts
         uses: actions/upload-artifact@v2
         with:
