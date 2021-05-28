@@ -62,9 +62,9 @@ password.
 
 
 > **Note:** Currently the nightly builds and defconfigs available here target
->           the Westermo _Coronet_, _Dagger_ and _Zero_ platforms.  Other platforms planned to will 
->           be supported later.  For
->           details, see the NetBox project.
+>           the Westermo _Coronet_, _Dagger_ and _Zero_ platforms.
+>           Other platforms planned to will be supported later.
+>           For details, see the NetBox project.
 
 
 Repository Layout
