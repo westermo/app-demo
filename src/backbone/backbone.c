@@ -94,7 +94,6 @@ static int backbone_cb_id(struct backbone_id *id)
 
 static bool backbone_cb_update(void)
 {
-	/* struct backbone_id = {{ 0 }}, *id; */  /* correctly zero-initialized */
 	struct backbone_id new, *id;
 	int d, p;
 
