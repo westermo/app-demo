@@ -1,5 +1,7 @@
 config BR2_PACKAGE_LEDS
-	bool "leds"
+	bool "LED Demo"
 	select BR2_PACKAGE_LIBEV
 	help
-	  This is the Leds demo app.
+	  LED Demo application. This demonstrates how a container application 
+	  can be used to control one or more LEDs shared by the host system.
+
