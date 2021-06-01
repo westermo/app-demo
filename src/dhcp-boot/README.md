@@ -43,13 +43,13 @@ log-facility=-
 no-daemon
 
 enable-tftp
-tftp-root=/mnt
+tftp-root=/tmp
 
 interface=eth0
 dhcp-option=66,"10.0.0.1"
 dhcp-option=67,"config.cfg"
 
-dhcp-range=tag:eth0,10.0.0.2,10.0.0.3,1h
+dhcp-range=tag:eth0,10.0.0.2,10.0.0.2,1h
 ```
 
 Configuration
@@ -164,5 +164,5 @@ example:/#> reboot
 </pre>
 
 After reboot the container application starts and changed the hostname to
-"Host_name_from_app" and saves the new configuration in usb/config.cfg. The host fetches 
+"Host_name_from_app" and saves the new configuration in /tmp/config.cfg. The host fetches
 and applies the new running-config from the container, resulting in the `hostname` being changed.
