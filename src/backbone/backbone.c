@@ -25,7 +25,7 @@ struct lag_config lag_confs[2] = {
 
 /* Runtime data */
 static struct lag *lags[2] = { NULL, NULL };
-struct backbone_id current_id = { 0 };
+struct backbone_id current_id;
 
 static int set_station(void)
 {
@@ -55,16 +55,16 @@ static int set_station(void)
 	return ret;
 }
 
-static bool set_id(const struct backbone_id *new)
+static bool set_id(const struct backbone_id *new_id)
 {
 	uint8_t *sta = current_id.station, *head = current_id.head;
 	char netchid[0x40];
 	int err;
 
-	if (!memcmp(&current_id, new, sizeof(current_id)))
+	if (!memcmp(&current_id, new_id, sizeof(current_id)))
 		return false;
 
-	memcpy(&current_id, new, sizeof(current_id));
+	memcpy(&current_id, new_id, sizeof(current_id));
 
 	LOG("New ID: %2.2x:%2.2x:%2.2x:%2.2x:%2.2x:%2.2x/"
 	    "%2.2x:%2.2x:%2.2x:%2.2x:%2.2x:%2.2x+%u",
@@ -94,10 +94,11 @@ static int backbone_cb_id(struct backbone_id *id)
 
 static bool backbone_cb_update(void)
 {
-	struct backbone_id new = { 0 }, *id;
+	struct backbone_id new_id, *id;
 	int d, p;
 
-	memcpy(new.station, current_id.station, ETH_ALEN);
+	memset(&new_id, 0, sizeof new_id);
+	memcpy(new_id.station, current_id.station, ETH_ALEN);
 
 	/* First pass, iterate over all of our neighbors, find the
 	 * best available head and attach to it. */
@@ -119,16 +120,16 @@ static bool backbone_cb_update(void)
 			    (id->id > current_id.id))
 				continue;
 
-			if (backbone_id_cmp(id, &new) > 0) {
-				memcpy(&new.head, id->head, ETH_ALEN);
+			if (backbone_id_cmp(id, &new_id) > 0) {
+				memcpy(&new_id.head, id->head, ETH_ALEN);
 
 				/* If we are the head, use ID 1.
 				 * Otherwise attach behind our
 				 * neighbor. */
 				if (!memcmp(id->head, current_id.station, ETH_ALEN))
-					new.id = 1;
+					new_id.id = 1;
 				else
-					new.id = id->id + 1;
+					new_id.id = id->id + 1;
 			}
 		}
 	}
@@ -142,12 +143,12 @@ static bool backbone_cb_update(void)
 			/* Never open a looped port, or a port which is
 			 * attached to a different head. */
 			if (!memcmp(id->station, current_id.station, ETH_ALEN) ||
-			    memcmp(id->head, new.head, ETH_ALEN)) {
+			    memcmp(id->head, new_id.head, ETH_ALEN)) {
 				lag_port_enable(lags[d]->port[p], false);
 				continue;
 			}
 
-			switch (id->id - new.id) {
+			switch (id->id - new_id.id) {
 			case  1:
 			case -1:
 				/* Distance is 1, port has peered. */
@@ -159,7 +160,7 @@ static bool backbone_cb_update(void)
 		}
 	}
 
-	return set_id(&new);
+	return set_id(&new_id);
 }
 
 static int backbone_run(struct ev_loop *loop)
@@ -355,6 +356,8 @@ int main(int argc, char **argv)
 	int logcons    = 0;
 	int log_opts   = LOG_NDELAY | LOG_PID;
 	int c;
+
+	memset(&current_id, 0, sizeof current_id);
 
 	while ((c = getopt(argc, argv, "hl:nsv")) != EOF) {
 		switch (c) {
