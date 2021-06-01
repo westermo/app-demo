@@ -9,8 +9,6 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-extern char *__progname;
-
 int toggle;  /* toggle led ON/OFF */
 
 struct led {
@@ -37,8 +35,8 @@ static struct sig sigs[] = {
 /* read max brightness from driver and save it to struct */
 static int get_max_brightness(const char *path, struct led *l)
 {
-	FILE *fp = NULL;
 	char max_val[256];
+	FILE *fp = NULL;
 	int retval = 1;
 
 	if (access(path, F_OK) != 0) {
@@ -96,7 +94,7 @@ cleanup:
 static void sig_cb(struct ev_loop *loop, ev_signal *w, int revents)
 {
 
-	printf("\nsignal received\n");
+	/* printf("\nsignal received\n"); */
 
 	(void)(revents);
 
@@ -113,7 +111,8 @@ static void timeout_cb(EV_P_ ev_timer *w, int revents)
 {
 	char led_path[256];
 
-	snprintf(led_path, sizeof(led_path), "/sys/class/leds/%s/brightness", led.port);
+	snprintf(led_path, sizeof(led_path), "/sys/class/leds/%s/brightness", 
+		 led.port);
 	if (set_led(led_path, toggle * led.max_brightness) != 0) {
 		ev_break(EV_A_ EVBREAK_ALL);
 		return;
@@ -134,24 +133,26 @@ static int starts_with(const char *pre, const char *str)
 
 static void print_interfaces(void)
 {
-	DIR *d;
 	struct dirent *dir;
+	DIR *d;
 
 	if (access("/sys/class/leds/", F_OK) != 0) {
-		printf("Could not access /sys/class/leds/. %s\n", strerror(errno));
+		printf("Could not access /sys/class/leds/. %s\n", 
+			strerror(errno));
 		return;
 	}
 	d = opendir("/sys/class/leds/");
 	if (d) {
 		while ((dir = readdir(d)) != NULL) {
-			if ((dir->d_type == DT_LNK) && (starts_with("eth", dir->d_name) == 0))
+			if ((dir->d_type == DT_LNK) && 
+			    (starts_with("eth", dir->d_name) == 0))
 				printf("%s\n", dir->d_name);
 		}
 		closedir(d);
 	}
 }
 
-static int usage(int code)
+static int usage(int code, char *prog)
 {
 	fprintf(stderr, "\nUsage: %s [OPTIONS]\n\n"
 		"  -h         Show summary of command line options and exit\n"
@@ -164,30 +165,37 @@ static int usage(int code)
 		"Example usage:\n"
 		"Flash led:   %s -i ethX5:yellow:state -t 2.0\n"
 		"Set led ON:  %s -1 ethX5:yellow:state\n"
-		"\n", __progname, __progname, __progname);
+		"\n", prog, prog, prog);
 
 	return code;
 }
 
 int main(int argc, char **argv)
 {
-	struct ev_loop *loop;
-	struct sig *sig;
-	ev_timer timeout_watcher;
-	int c;
-	char led_path[256];
 	double timeout_repeat = 2.;
+	ev_timer timeout_watcher;
+	struct ev_loop *loop;
+	char led_path[256];
+	char *prog, *ptr;
+	struct sig *sig;
+	int c;
+
+	prog = argv[0];
+	ptr = strrchr(prog, '/');
+	if (ptr)
+		prog = ptr + 1;
 
 	while ((c = getopt(argc, argv, "hpi:t:0:1:")) != EOF) {
 		switch (c) {
 		case 'h':
-			return usage(0);
+			return usage(0, prog);
 		case 'i':
 			/* initialise led structure */
 			snprintf(led.port, sizeof(led.port), "%s", optarg);
-			snprintf(led_path, sizeof(led_path), "/sys/class/leds/%s/max_brightness", led.port);
+			snprintf(led_path, sizeof(led_path), 
+				 "/sys/class/leds/%s/max_brightness", led.port);
 			if (get_max_brightness(led_path, &led) != 0)
-				return usage(1);
+				return usage(1, prog);
 			break;
 		case 'p':
 			print_interfaces();
@@ -196,25 +204,28 @@ int main(int argc, char **argv)
 			errno = 0;
 			timeout_repeat = strtof(optarg, NULL);
 			if (errno != 0)
-				return usage(1);
+				return usage(1, prog);
 			break;
 		case '0':
 			snprintf(led.port, sizeof(led.port), "%s", optarg);
-			snprintf(led_path, sizeof(led_path), "/sys/class/leds/%s/brightness", led.port);
+			snprintf(led_path, sizeof(led_path), 
+				 "/sys/class/leds/%s/brightness", led.port);
 			if (set_led(led_path, 0) != 0)
-				return usage(1);
+				return usage(1, prog);
 			return 0;
 		case '1':
 			snprintf(led.port, sizeof(led.port), "%s", optarg);
-			snprintf(led_path, sizeof(led_path), "/sys/class/leds/%s/max_brightness", led.port);
+			snprintf(led_path, sizeof(led_path), 
+				 "/sys/class/leds/%s/max_brightness", led.port);
 			if (get_max_brightness(led_path, &led) != 0)
-				return usage(1);
-			snprintf(led_path, sizeof(led_path), "/sys/class/leds/%s/brightness", led.port);
+				return usage(1, prog);
+			snprintf(led_path, sizeof(led_path), 
+				 "/sys/class/leds/%s/brightness", led.port);
 			if (set_led(led_path, led.max_brightness) != 0)
-				return usage(1);
+				return usage(1, prog);
 			return 0;
 		default:
-			return usage(1);
+			return usage(1, prog);
 		}
 	}
 
