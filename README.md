@@ -54,12 +54,18 @@ Available Demos
 The default login credentials for all demo apps are `root` without any
 password.
 
-| **Architecture** | **Platform Code Name** | **Backbone App** | **Dhcp-boot App** |
+| **Architecture** | **Platform Code Name** | **Backbone App** | **DHCP Boot App** |
 |------------------|------------------------|-----------------------|----------------------|
 | powerpc          | Coronet                | [backbone-coronet][]       | [dhcp-boot-coronet][]       |
 | arm cortex-a9    | Dagger                 | [backbone-dagger][]        | [dhcp-boot-dagger][]                  |
 | x86_64           | Zero                   | [backbone-zero][]          | [dhcp-boot-zero][]          |
 
+GitHub checksums of each build to check if a download is needed:
+
+| **App**   | **SHA1 Checksum** |
+|-----------|-------------------|
+| backbone  | [backbone.sha1][] |
+| dhcp-boot | [dhcp-boot][]     |
 
 > **Note:** Currently the nightly builds and defconfigs available here target
 >           the Westermo _Coronet_, _Dagger_ and _Zero_ platforms.
@@ -91,19 +97,21 @@ image containing an executable `/sbin/init` which is compatible with the
 target architecture.
 
 
-[NetBox]:           https://github.com/westermo/netbox
-[Buildroot Manual]: https://buildroot.org/downloads/manual/manual.html
-[External Tree]:    https://buildroot.org/downloads/manual/manual.html#outside-br-custom
-[Example layout]:   https://buildroot.org/downloads/manual/manual.html#_example_layout
-[Backbone]:         src/backbone/README.md
-[DHCP Boot]:        src/dhcp-boot/README.md
-[backbone.zip]:     https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-backbone-coronet.zip
-[dhcp-boot.zip]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-coronet.zip
+[NetBox]:            https://github.com/westermo/netbox
+[Buildroot Manual]:  https://buildroot.org/downloads/manual/manual.html
+[External Tree]:     https://buildroot.org/downloads/manual/manual.html#outside-br-custom
+[Example layout]:    https://buildroot.org/downloads/manual/manual.html#_example_layout
+[Backbone]:          src/backbone/README.md
+[DHCP Boot]:         src/dhcp-boot/README.md
+[backbone.zip]:      https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-backbone-coronet.zip
+[dhcp-boot.zip]:     https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-coronet.zip
 
-[backbone-coronet]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-backbone-coronet.zip
-[backbone-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-backbone-zero.zip
-[backbone-dagger]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-backbone-dagger.zip
+[backbone-coronet]:  https://nightly.link/westermo/app-demo/workflows/nightly-backbone/master/app-demo-backbone-coronet.zip
+[backbone-dagger]:   https://nightly.link/westermo/app-demo/workflows/nightly-backbone/master/app-demo-backbone-dagger.zip
+[backbone-zero]:     https://nightly.link/westermo/app-demo/workflows/nightly-backbone/master/app-demo-backbone-zero.zip
+[backbone.sha1]:     https://nightly.link/westermo/app-demo/workflows/nightly-backbone/master/sha1.zip
 
-[dhcp-boot-coronet]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-coronet.zip
-[dhcp-boot-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-zero.zip
-[dhcp-boot-dagger]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-dagger.zip
+[dhcp-boot-coronet]: https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-coronet.zip
+[dhcp-boot-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-zero.zip
+[dhcp-boot-dagger]:  https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-dagger.zip
+[dhcp-boot.sha1]:    https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/sha1.zip
