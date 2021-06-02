@@ -54,11 +54,11 @@ Available Demos
 The default login credentials for all demo apps are `root` without any
 password.
 
-| **Architecture** | **Platform Code Name** | **Backbone App** | **Dhcp-boot App** |
+| **Architecture** | **Platform Code Name** | **Backbone App** | **Dhcp-boot App** | **Led-relay App** |
 |------------------|------------------------|-----------------------|----------------------|
-| powerpc          | Coronet                | [backbone-coronet][]       | [dhcp-boot-coronet][]       |
-| arm cortex-a9    | Dagger                 | [backbone-dagger][]        | [dhcp-boot-dagger][]                  |
-| x86_64           | Zero                   | [backbone-zero][]          | [dhcp-boot-zero][]          |
+| powerpc          | Coronet                | [backbone-coronet][]       | [dhcp-boot-coronet][]       | [led-relay-coronet][] |
+| arm cortex-a9    | Dagger                 | [backbone-dagger][]        | [dhcp-boot-dagger][]                  | [led-relay-dagger][] |
+| x86_64           | Zero                   | [backbone-zero][]          | [dhcp-boot-zero][]          | [led-relay-zero][] |
 
 
 > **Note:** Currently the nightly builds and defconfigs available here target
@@ -107,3 +107,7 @@ target architecture.
 [dhcp-boot-coronet]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-coronet.zip
 [dhcp-boot-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-zero.zip
 [dhcp-boot-dagger]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-dagger.zip
+
+[led-relay-coronet]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-led-relay-coronet.zip
+[led-relay-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-led-relay-zero.zip
+[led-relay-dagger]:    https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-led-relay-dagger.zip
