@@ -62,10 +62,10 @@ password.
 
 GitHub checksums of each build to check if a download is needed:
 
-| **App**   | **SHA1 Checksum** |
-|-----------|-------------------|
-| backbone  | [backbone.sha1][] |
-| dhcp-boot | [dhcp-boot][]     |
+| **App**   | **SHA1 Checksum**  |
+|-----------|--------------------|
+| backbone  | [backbone.sha1][]  |
+| dhcp-boot | [dhcp-boot.sha1][] |
 
 > **Note:** Currently the nightly builds and defconfigs available here target
 >           the Westermo _Coronet_, _Dagger_ and _Zero_ platforms.
