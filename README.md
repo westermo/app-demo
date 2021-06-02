@@ -54,11 +54,11 @@ Available Demos
 The default login credentials for all demo apps are `root` without any
 password.
 
-| **Architecture** | **Platform Code Name** | **Backbone App** | **DHCP Boot App** |
+| **Architecture** | **Platform Code Name** | **Backbone App** | **Dhcp-boot App** | **Led-relay App** |
 |------------------|------------------------|-----------------------|----------------------|
-| powerpc          | Coronet                | [backbone-coronet][]       | [dhcp-boot-coronet][]       |
-| arm cortex-a9    | Dagger                 | [backbone-dagger][]        | [dhcp-boot-dagger][]                  |
-| x86_64           | Zero                   | [backbone-zero][]          | [dhcp-boot-zero][]          |
+| powerpc          | Coronet                | [backbone-coronet][]       | [dhcp-boot-coronet][]       | [led-relay-coronet][] |
+| arm cortex-a9    | Dagger                 | [backbone-dagger][]        | [dhcp-boot-dagger][]                  | [led-relay-dagger][] |
+| x86_64           | Zero                   | [backbone-zero][]          | [dhcp-boot-zero][]          | [led-relay-zero][] |
 
 GitHub checksums of each build to check if a download is needed:
 
@@ -66,6 +66,7 @@ GitHub checksums of each build to check if a download is needed:
 |-----------|--------------------|
 | backbone  | [backbone.sha1][]  |
 | dhcp-boot | [dhcp-boot.sha1][] |
+| led-relay | [led-relay.sha1][] |
 
 > **Note:** Currently the nightly builds and defconfigs available here target
 >           the Westermo _Coronet_, _Dagger_ and _Zero_ platforms.
@@ -96,7 +97,6 @@ you are free to use any build system as long as the result is a SquashFS
 image containing an executable `/sbin/init` which is compatible with the
 target architecture.
 
-
 [NetBox]:            https://github.com/westermo/netbox
 [Buildroot Manual]:  https://buildroot.org/downloads/manual/manual.html
 [External Tree]:     https://buildroot.org/downloads/manual/manual.html#outside-br-custom
@@ -115,3 +115,8 @@ target architecture.
 [dhcp-boot-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-zero.zip
 [dhcp-boot-dagger]:  https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-dagger.zip
 [dhcp-boot.sha1]:    https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/sha1.zip
+
+[led-relay-coronet]:    https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-coronet.zip
+[led-relay-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-zero.zip
+[led-relay-dagger]:    https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-dagger.zip
+[led-relay.sha1]:    https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/sha1.zip
