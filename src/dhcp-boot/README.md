@@ -189,6 +189,9 @@ example:/boot/#> leave
 example:/#> reboot
 ```
 
-After reboot the container application starts and changed the hostname to
-"Host_name_from_app" and saves the new configuration in /tmp/config.cfg. The host fetches
-and applies the new running-config from the container, resulting in the `hostname` being changed.
+After reboot the container application is started from WeOS `net-config`
+where it "converts" the `pre-config.cfg` to `/tmp/config.cfg`, simply by
+setting a new hostname: `"Host_name_from_app"`.  The host WeOS system
+meanwhile acquries a DHCP lease from the container and then fetches its
+bootfile (`config.cfg`), and applies as its new `running-config`.  We
+can verify this by inspecting the new hostname of the host WeOS system.
