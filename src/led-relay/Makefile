@@ -9,4 +9,4 @@ led-relay: led-relay.c
 install:
 	@mkdir -p \
 		$(DESTDIR)/$(PREFIX)/sbin/ \
-	@cp backbone $(DESTDIR)/$(PREFIX)/sbin/
+	@cp led-relay $(DESTDIR)/$(PREFIX)/sbin/
