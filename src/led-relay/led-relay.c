@@ -17,7 +17,7 @@ static int bypass_relay(char *val)
 	snprintf(relay_path, sizeof(relay_path), RELAY_PATH "value");
 
 	if (access(relay_path, F_OK) != 0) {
-		printf("Could not access file %s. %s\n",
+		fprintf(stderr, "Could not access file %s. E:%s\n",
 			relay_path,
 			strerror(errno));
 		goto cleanup;
@@ -25,7 +25,7 @@ static int bypass_relay(char *val)
 
 	fp = fopen(relay_path, "w");
 	if (!fp) {
-		printf("Could not open file %s. %s\n",
+		fprintf(stderr, "Could not open file %s. E:%s\n",
 			relay_path,
 			strerror(errno));
 		goto cleanup;
@@ -50,7 +50,7 @@ static int flash_led(char *val, char *port)
 	snprintf(led_path, sizeof(led_path), LED_PATH "%s/trigger", port);
 
 	if (access(led_path, F_OK) != 0) {
-		printf("Could not access file %s. %s\n",
+		fprintf(stderr, "Could not access file %s. E:%s\n",
 			led_path,
 			strerror(errno));
 		goto cleanup;
@@ -58,7 +58,7 @@ static int flash_led(char *val, char *port)
 
 	fp = fopen(led_path, "w");
 	if (!fp) {
-		printf("Could not open file %s. %s\n",
+		fprintf(stderr, "Could not open file %s. E:%s\n",
 			led_path,
 			strerror(errno));
 		goto cleanup;
@@ -83,7 +83,7 @@ static int set_led(int val, char *port)
 	snprintf(led_path, sizeof(led_path), LED_PATH "%s/brightness", port);
 
 	if (access(led_path, F_OK) != 0) {
-		printf("Could not access file %s. %s\n",
+		fprintf(stderr, "Could not access file %s. E:%s\n",
 			led_path,
 			strerror(errno));
 		goto cleanup;
@@ -91,7 +91,7 @@ static int set_led(int val, char *port)
 
 	fp = fopen(led_path, "w");
 	if (!fp) {
-		printf("Could not open file %s. %s\n",
+		fprintf(stderr, "Could not open file %s. E:%s\n",
 			led_path,
 			strerror(errno));
 		goto cleanup;
@@ -117,7 +117,7 @@ static int get_led(int *val, char *port)
 	snprintf(led_path, sizeof(led_path), LED_PATH "%s/brightness", port);
 
 	if (access(led_path, F_OK) != 0) {
-		printf("Could not access file %s. %s\n",
+		fprintf(stderr, "Could not access file %s. E:%s\n",
 			led_path,
 			strerror(errno));
 		goto cleanup;
@@ -125,14 +125,14 @@ static int get_led(int *val, char *port)
 
 	fp = fopen(led_path, "r");
 	if (!fp) {
-		printf("Could not open file %s. %s\n",
+		fprintf(stderr, "Could not open file %s. E:%s\n",
 			led_path,
 			strerror(errno));
 		goto cleanup;
 	}
 
 	if ((fgets(led_value, sizeof(led_value), fp)) == NULL) {
-		printf("Could not read led value. %s\n", strerror(errno));
+		fprintf(stderr, "Could not read led value. E:%s\n", strerror(errno));
 		goto cleanup;
 	}
 
@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
 	while ((c = getopt(argc, argv, "b:c:f:g:hs:v")) != EOF) {
 		switch (c) {
 		case 'b':
-			if (bypass_relay(optarg)) {
+			if (!bypass_relay(optarg)) {
 				fprintf(stderr, "Bypass relay is set to %s\n",
 					optarg);
 			} else {
@@ -189,7 +189,7 @@ int main(int argc, char *argv[])
 			}
 			return 0;
 		case 'c':
-			if (set_led(0, optarg)) {
+			if (!set_led(0, optarg)) {
 				flash_led("none", optarg);
 				fprintf(stderr, "LED is cleared\n");
 			} else {
@@ -198,7 +198,7 @@ int main(int argc, char *argv[])
 			}
 			return 0;
 		case 'f':
-			if (flash_led("timer", optarg)) {
+			if (!flash_led("timer", optarg)) {
 				fprintf(stderr, "LED is flashing\n");
 			} else {
 				fprintf(stderr, "Failed flashing LED\n");
@@ -206,19 +206,18 @@ int main(int argc, char *argv[])
 			}
 			return 0;
 		case 'g':
-			if (get_led(&val, optarg)) {
+			if (!get_led(&val, optarg)) {
 				fprintf(stderr, "value of LED is %d\n",
 					val);
 			} else {
-				fprintf(stderr, "Failed getting value %s\n",
-					strerror(errno));
+				fprintf(stderr, "Failed getting value\n");
 				return 1;
 			}
 			return 0;
 		case 'h':
 			return usage(0, prog);
 		case 's':
-			if (set_led(1, optarg)) {
+			if (!set_led(1, optarg)) {
 				fprintf(stderr, "LED is set\n");
 			} else {
 				fprintf(stderr, "Failed setting LED\n");
