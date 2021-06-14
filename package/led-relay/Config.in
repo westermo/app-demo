@@ -1,0 +1,7 @@
+config BR2_PACKAGE_LED_RELAY
+	bool "led-relay"
+	help
+	  LED demo application. 
+	  This demonstrates how a container application can be used 
+	  to control one or more LEDs shared by the host system.
+
