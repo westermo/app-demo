@@ -22,14 +22,6 @@ jobs:
             dl-${{ matrix.platform }}-dhcp-boot-
             dl-${{ matrix.platform }}-
             dl-
-      - name: Cache .ccache
-        uses: actions/cache@v2
-        with:
-          path: .buildroot-ccache/
-          key: ccache-${{ matrix.platform }}-dhcp-boot-${{ hashFiles('.git/modules/netbox/HEAD', 'package/*/*.hash') }}
-          restore-keys: |
-            ccache-${{ matrix.platform }}-dhcp-boot-
-            ccache-${{ matrix.platform }}-
       - name: defconfig
         run: make dhcp-boot_${{ matrix.platform }}_defconfig
       - name: build

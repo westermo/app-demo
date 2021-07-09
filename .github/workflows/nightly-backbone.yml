@@ -22,14 +22,6 @@ jobs:
             dl-${{ matrix.platform }}-backbone-
             dl-${{ matrix.platform }}-
             dl-
-      - name: Cache .ccache
-        uses: actions/cache@v2
-        with:
-          path: .buildroot-ccache/
-          key: ccache-${{ matrix.platform }}-backbone-${{ hashFiles('.git/modules/netbox/HEAD', 'package/*/*.hash') }}
-          restore-keys: |
-            ccache-${{ matrix.platform }}-backbone-
-            ccache-${{ matrix.platform }}-
       - name: defconfig
         run: make backbone_${{ matrix.platform }}_defconfig
       - name: build
