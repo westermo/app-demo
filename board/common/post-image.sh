@@ -20,9 +20,10 @@ if [ -n "$RELEASE" ]; then
 fi
 
 img="${BINARIES_DIR}/${BR2_TARGET_GENERIC_HOSTNAME}-${DEMO_PLATFORM}${ver}.img"
-md5=$(basename "$img" .img).md5
+dir=$(dirname "$img")
+md5=$dir/$(basename "$img" .img).md5
 
-mv "$BINARIES_DIR"/rootfs.sqashfs "$img"
+mv "$BINARIES_DIR"/rootfs.squashfs "$img"
 sha1sum "$img" > "$md5"
 
 exit $err
