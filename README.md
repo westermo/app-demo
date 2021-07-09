@@ -38,6 +38,11 @@ of the box, other variants are possible, but require custom setup:
 Available Demos
 ---------------
 
+The following table list each available application demo, with links to
+the README of each demo and quick-links to the latest build for each of
+the supported platforms.  The same builds are also available directly
+from the Actions tab on the GitHub project.
+
 | **Description**   | **Coronet**           | **Dagger**           | **Zero**           |
 |-------------------|-----------------------|----------------------|--------------------|
 | [Backbone][]  App | [backbone-coronet][]  | [backbone-dagger][]  | [backbone-zero][]  |
