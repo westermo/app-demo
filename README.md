@@ -116,14 +116,15 @@ target architecture.
 [Backbone]:          src/backbone/README.md
 [DHCP Boot]:         src/dhcp-boot/README.md
 [LED/Relay]:         src/led-relay/README.md
-[backbone-coronet]:  https://nightly.link/westermo/app-demo/workflows/nightly-backbone/master/app-demo-backbone-coronet.zip
-[backbone-dagger]:   https://nightly.link/westermo/app-demo/workflows/nightly-backbone/master/app-demo-backbone-dagger.zip
-[backbone-zero]:     https://nightly.link/westermo/app-demo/workflows/nightly-backbone/master/app-demo-backbone-zero.zip
 
-[dhcp-boot-coronet]: https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-coronet.zip
-[dhcp-boot-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-zero.zip
-[dhcp-boot-dagger]:  https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-dagger.zip
+[backbone-coronet]:  https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-backbone-coronet.zip
+[backbone-dagger]:   https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-backbone-dagger.zip
+[backbone-zero]:     https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-backbone-zero.zip
 
-[led-relay-coronet]: https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-coronet.zip
-[led-relay-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-zero.zip
-[led-relay-dagger]:  https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-dagger.zip
+[dhcp-boot-coronet]: https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-dhcp-boot-coronet.zip
+[dhcp-boot-dagger]:  https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-dhcp-boot-dagger.zip
+[dhcp-boot-zero]:    https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-dhcp-boot-zero.zip
+
+[led-relay-coronet]: https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-led-relay-coronet.zip
+[led-relay-dagger]:  https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-led-relay-dagger.zip
+[led-relay-zero]:    https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-led-relay-zero.zip
