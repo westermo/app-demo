@@ -25,7 +25,4 @@ md5=$(basename "$img" .img).md5
 mv "$BINARIES_DIR"/rootfs.sqash "$img"
 sha1sum "$img" > "$md5"
 
-# Clean up intermediate files
-rm -f $BINARIES_DIR/rootfs.tar
-
 exit $err
