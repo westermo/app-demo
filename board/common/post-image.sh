@@ -22,7 +22,7 @@ fi
 img="${BINARIES_DIR}/${BR2_TARGET_GENERIC_HOSTNAME}-${APP_PLATFORM}${ver}.img"
 md5=$(basename "$img" .img).md5
 
-mv "$BINARIES_DIR"/rootfs.sqash "$img"
+mv "$BINARIES_DIR"/rootfs.sqashfs "$img"
 sha1sum "$img" > "$md5"
 
 exit $err
