@@ -19,7 +19,7 @@ if [ -n "$RELEASE" ]; then
     fi
 fi
 
-img="${BINARIES_DIR}/${BR2_TARGET_GENERIC_HOSTNAME}-${APP_PLATFORM}${ver}.img"
+img="${BINARIES_DIR}/${BR2_TARGET_GENERIC_HOSTNAME}-${DEMO_PLATFORM}${ver}.img"
 md5=$(basename "$img" .img).md5
 
 mv "$BINARIES_DIR"/rootfs.sqashfs "$img"

@@ -1,4 +1,4 @@
-config APP_PLATFORM
+config DEMO_PLATFORM
 	string
 	default "coronet" if BR2_powerpc
 	default "dagger"  if BR2_arm
