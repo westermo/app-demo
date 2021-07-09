@@ -1,0 +1,41 @@
+name: Bob the Builder
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    name: ${{ matrix.platform }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        demo: [backbone, dhcp-boot, led-relay]
+        platform: [coronet, dagger, zero]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: dl/
+          key: dl-${{ matrix.platform }}-${{ matrix.demo }}-${{ hashFiles('.git/modules/netbox/HEAD', 'configs/*', 'package/*/*.hash') }}
+          restore-keys: |
+            dl-${{ matrix.platform }}-${{ matrix.demo }}-
+            dl-${{ matrix.platform }}-
+            dl-
+      - name: Configure & Build
+        run: |
+          make ${{ matrix.demo }}_${{ matrix.platform }}_defconfig
+          make
+      - name: Upload Application Image
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-demo-${{ matrix.demo }}-${{ matrix.platform }}
+          path: output/images/*
+      - name: Save Git Commit Hash
+        run: |
+          echo ${GITHUB_SHA} > output/images/hash.sha1
+      - name: Upload Git Commit Hash
+        uses: actions/upload-artifact@v2
+        with:
+          name: sha1
+          path: output/images/hash.sha1
