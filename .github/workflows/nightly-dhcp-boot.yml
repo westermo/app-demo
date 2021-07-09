@@ -12,8 +12,24 @@ jobs:
       matrix:
         platform: [coronet, dagger, zero]
     steps:
-      - name: checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Cache downloads
+        uses: actions/cache@v2
+        with:
+          path: dl/
+          key: dl-${{ matrix.platform }}-dhcp-boot-${{ hashFiles('.git/modules/netbox/HEAD', 'configs/*', 'package/*/*.hash') }}
+          restore-keys: |
+            dl-${{ matrix.platform }}-dhcp-boot-
+            dl-${{ matrix.platform }}-
+            dl-
+      - name: Cache .ccache
+        uses: actions/cache@v2
+        with:
+          path: .buildroot-ccache/
+          key: ccache-${{ matrix.platform }}-dhcp-boot-${{ hashFiles('.git/modules/netbox/HEAD', 'package/*/*.hash') }}
+          restore-keys: |
+            ccache-${{ matrix.platform }}-dhcp-boot-
+            ccache-${{ matrix.platform }}-
       - name: defconfig
         run: make dhcp-boot_${{ matrix.platform }}_defconfig
       - name: build

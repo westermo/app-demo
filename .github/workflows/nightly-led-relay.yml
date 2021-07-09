@@ -12,8 +12,24 @@ jobs:
       matrix:
         platform: [coronet, dagger, zero]
     steps:
-      - name: checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Cache downloads
+        uses: actions/cache@v2
+        with:
+          path: dl/
+          key: dl-${{ matrix.platform }}-led-relay-${{ hashFiles('.git/modules/netbox/HEAD', 'configs/*', 'package/*/*.hash') }}
+          restore-keys: |
+            dl-${{ matrix.platform }}-led-relay-
+            dl-${{ matrix.platform }}-
+            dl-
+      - name: Cache .ccache
+        uses: actions/cache@v2
+        with:
+          path: .buildroot-ccache/
+          key: ccache-${{ matrix.platform }}-led-relay-${{ hashFiles('.git/modules/netbox/HEAD', 'package/*/*.hash') }}
+          restore-keys: |
+            ccache-${{ matrix.platform }}-led-relay-
+            ccache-${{ matrix.platform }}-
       - name: defconfig
         run: make led-relay_${{ matrix.platform }}_defconfig
       - name: build
