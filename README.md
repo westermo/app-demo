@@ -54,11 +54,11 @@ Available Demos
 The default login credentials for all demo apps are `root` without any
 password.
 
-| **Architecture** | **Platform Code Name** | **Backbone App** | **Dhcp-boot App** | **Led-relay App** |
-|------------------|------------------------|-----------------------|----------------------|
-| powerpc          | Coronet                | [backbone-coronet][]       | [dhcp-boot-coronet][]       | [led-relay-coronet][] |
-| arm cortex-a9    | Dagger                 | [backbone-dagger][]        | [dhcp-boot-dagger][]                  | [led-relay-dagger][] |
-| x86_64           | Zero                   | [backbone-zero][]          | [dhcp-boot-zero][]          | [led-relay-zero][] |
+| **Architecture** | **Platform** | **Backbone App** | **DHCP Boot App** | **LED/Relay App** |
+|------------------|--------------|------------------|-------------------|-------------------|
+| powerpc          | Coronet      | [backbone-coronet][] | [dhcp-boot-coronet][] | [led-relay-coronet][] |
+| arm cortex-a9    | Dagger       | [backbone-dagger][]  | [dhcp-boot-dagger][]  | [led-relay-dagger][] |
+| x86_64           | Zero         | [backbone-zero][]    | [dhcp-boot-zero][]   | [led-relay-zero][] |
 
 GitHub checksums of each build to check if a download is needed:
 
