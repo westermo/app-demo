@@ -38,11 +38,11 @@ of the box, other variants are possible, but require custom setup:
 Available Demos
 ---------------
 
-| **Description**   | **Coronet**           | **Dagger**           | **Zero**           | **SHA1 Checksum**  |
-|-------------------|-----------------------|----------------------|--------------------|--------------------|
-| [Backbone][]  App | [backbone-coronet][]  | [backbone-dagger][]  | [backbone-zero][]  | [backbone.sha1][]  |
-| [DHCP Boot][] App | [dhcp-boot-coronet][] | [dhcp-boot-dagger][] | [dhcp-boot-zero][] | [dhcp-boot.sha1][] |
-| [LED/Relay][] App | [led-relay-coronet][] | [led-relay-dagger][] | [led-relay-zero][] | [led-relay.sha1][] |
+| **Description**   | **Coronet**           | **Dagger**           | **Zero**           |
+|-------------------|-----------------------|----------------------|--------------------|
+| [Backbone][]  App | [backbone-coronet][]  | [backbone-dagger][]  | [backbone-zero][]  |
+| [DHCP Boot][] App | [dhcp-boot-coronet][] | [dhcp-boot-dagger][] | [dhcp-boot-zero][] |
+| [LED/Relay][] App | [led-relay-coronet][] | [led-relay-dagger][] | [led-relay-zero][] |
 
 The default login credentials for all demo apps are `root` without any
 password.  To enable remote login using SSH, you need to set a password
@@ -106,6 +106,19 @@ you are free to use any build system as long as the result is a SquashFS
 image containing an executable `/sbin/init` which is compatible with the
 target architecture.
 
+
+Checksums and References
+------------------------
+
+The following table denotes the GitHub SHA1 checksum for the build
+actions for each job.  Used only for internal purposes.
+
+| GitHub Job    | **Checksum**       |
+|---------------|--------------------|
+| [Backbone][]  | [backbone.sha1][]  |
+| [DHCP Boot][] | [dhcp-boot.sha1][] |
+| [LED/Relay][] | [led-relay.sha1][] |
+
 [WeOS]:              https://www.westermo.com/solutions/weos
 [NetBox]:            https://github.com/westermo/netbox
 [Buildroot]:         https://buildroot.org
@@ -128,7 +141,7 @@ target architecture.
 [dhcp-boot-dagger]:  https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-dagger.zip
 [dhcp-boot.sha1]:    https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/sha1.zip
 
-[led-relay-coronet]:    https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-coronet.zip
+[led-relay-coronet]: https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-coronet.zip
 [led-relay-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-zero.zip
-[led-relay-dagger]:    https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-dagger.zip
+[led-relay-dagger]:  https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-dagger.zip
 [led-relay.sha1]:    https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/sha1.zip
