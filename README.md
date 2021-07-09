@@ -1,6 +1,8 @@
 WeOS Application Demos
 ======================
 
+<img align="right" src="doc/externals.svg" alt="Layers of Buildroot externals">
+
 This repository is the starting point for 3rd party developers looking
 to deploy their applications as containers in the Westermo [WeOS][]
 operating system.
@@ -14,8 +16,6 @@ NetBox extends [Buildroot][] to provide a solid build system and recipes
 for building thousands of open source packages, handling all intricacies
 of dependency management, cross-compilation etc.  All these packages are
 available for use in both NetBox and app-demo.
-
-![Buildroot External Trees](doc/externals.svg)
 
 The app-demo project is layered on top of NetBox, the same way NetBox is
 layered on top of Buildroot, using the Buildroot [External Tree][]
@@ -64,7 +64,7 @@ app-demo root directory will show a summary of the most commonly used
 commands.
 
 In order to build a container image, the repository must first be
-configured. To list the available configuration targets, run
+configured.  To list the available configuration targets, run
 
     make list-defconfigs
 
