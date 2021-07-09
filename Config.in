@@ -1,1 +1,8 @@
+config APP_PLATFORM
+	string
+	default "coronet" if BR2_powerpc
+	default "dagger"  if BR2_arm
+	default "zero"    if BR2_x86_64
+	default BR2_ARCH
+
 source "$BR2_EXTERNAL_DEMO_PATH/package/Config.in"
