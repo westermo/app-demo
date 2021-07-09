@@ -1,4 +1,9 @@
 config BR2_PACKAGE_DHCP_BOOT
 	bool "dhcp-boot"
 	help
-	  Fill in some help text here.
+	  Demo of how to create a container application that serves the
+	  WeOS host system with a startup-config at system bootstrap.
+
+	  The container runs dnsmasq to hand out a DHCP lease with a
+	  boot file and TFTP server to the host system.  See the README
+	  for more information and how to configure the WeOS host.
