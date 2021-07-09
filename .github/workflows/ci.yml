@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.demo }} for ${{ matrix.platform }}
+    name: ${{ matrix.demo }} demo for ${{ matrix.platform }} platform
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,17 +31,3 @@ jobs:
         with:
           name: app-demo-${{ matrix.demo }}-${{ matrix.platform }}
           path: output/images/*
-
-  sha1:
-    name: Save build gHASH for reference
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Save Git Commit Hash
-        run: |
-          echo ${GITHUB_SHA} > output/images/hash.sha1
-      - name: Upload Git Commit Hash
-        uses: actions/upload-artifact@v2
-        with:
-          name: sha1
-          path: output/images/hash.sha1

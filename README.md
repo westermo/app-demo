@@ -107,18 +107,6 @@ image containing an executable `/sbin/init` which is compatible with the
 target architecture.
 
 
-Checksums and References
-------------------------
-
-The following table denotes the GitHub SHA1 checksum for the build
-actions for each job.  Used only for internal purposes.
-
-| GitHub Job    | **Checksum**       |
-|---------------|--------------------|
-| [Backbone][]  | [backbone.sha1][]  |
-| [DHCP Boot][] | [dhcp-boot.sha1][] |
-| [LED/Relay][] | [led-relay.sha1][] |
-
 [WeOS]:              https://www.westermo.com/solutions/weos
 [NetBox]:            https://github.com/westermo/netbox
 [Buildroot]:         https://buildroot.org
@@ -128,20 +116,14 @@ actions for each job.  Used only for internal purposes.
 [Backbone]:          src/backbone/README.md
 [DHCP Boot]:         src/dhcp-boot/README.md
 [LED/Relay]:         src/led-relay/README.md
-[backbone.zip]:      https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-backbone-coronet.zip
-[dhcp-boot.zip]:     https://nightly.link/westermo/app-demo/workflows/nightly/master/app-demo-dhcp-boot-coronet.zip
-
 [backbone-coronet]:  https://nightly.link/westermo/app-demo/workflows/nightly-backbone/master/app-demo-backbone-coronet.zip
 [backbone-dagger]:   https://nightly.link/westermo/app-demo/workflows/nightly-backbone/master/app-demo-backbone-dagger.zip
 [backbone-zero]:     https://nightly.link/westermo/app-demo/workflows/nightly-backbone/master/app-demo-backbone-zero.zip
-[backbone.sha1]:     https://nightly.link/westermo/app-demo/workflows/nightly-backbone/master/sha1.zip
 
 [dhcp-boot-coronet]: https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-coronet.zip
 [dhcp-boot-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-zero.zip
 [dhcp-boot-dagger]:  https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/app-demo-dhcp-boot-dagger.zip
-[dhcp-boot.sha1]:    https://nightly.link/westermo/app-demo/workflows/nightly-dhcp-boot/master/sha1.zip
 
 [led-relay-coronet]: https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-coronet.zip
 [led-relay-zero]:    https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-zero.zip
 [led-relay-dagger]:  https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/app-demo-led-relay-dagger.zip
-[led-relay.sha1]:    https://nightly.link/westermo/app-demo/workflows/nightly-led-relay/master/sha1.zip
