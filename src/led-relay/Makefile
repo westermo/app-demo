@@ -19,7 +19,7 @@ clean:
 	$(RM) $(OBJS) $(EXEC)
 
 distclean: clean
-	$(RM) *.o *.bak *~
+	$(RM) $(DEPS) *.o *.bak *~
 
 install:
 	@cp led-relay $(DESTDIR)/$(PREFIX)/sbin/
