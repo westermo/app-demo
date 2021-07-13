@@ -1,176 +1,141 @@
-#include <unistd.h>
-#include <stdio.h>    /* puts */
+/*
+ * Copyright (c) 2021 Westermo Network Technologies
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+*/
+
+#include <err.h>
 #include <errno.h>
+#include <stdio.h>
+#include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
-#define LED_PATH "/sys/class/leds/"
-#define RELAY_PATH "/sys/class/relay-ctrl/bypass-relay/"
-#define VERSION "1.0.0.0"
+#define LED_PATH    "/sys/class/leds/"
+#define RELAY_PATH  "/sys/class/relay-ctrl/bypass-relay/"
+
+
+#define COMPOSE(path, fmt)					\
+        va_list ap;						\
+								\
+	va_start(ap, fmt);					\
+        rc = vsnprintf(path, sizeof(path), fmt, ap);		\
+        va_end(ap);						\
+								\
+	if (rc >= (int)sizeof(path)) {				\
+		errno = ENAMETOOLONG;				\
+		warn("Failed composing path %s", path);		\
+		return 1;					\
+	}
+
+static int fwritef(char *buf, const char *fmt, ...)
+{
+	char path[512];
+	FILE *fp;
+	int rc;
+
+	COMPOSE(path, fmt);
+
+	fp = fopen(path, "w");
+	if (!fp) {
+		warn("Failed opening file %s for writing", path);
+		return 1;
+	}
+
+	fprintf(fp, "%s\n", buf);
+
+	return fclose(fp);
+}
+
+static int freadf(char *buf, size_t len, const char *fmt, ...)
+{
+	char path[512];
+	FILE *fp;
+	int rc;
+
+	COMPOSE(path, fmt);
+
+	fp = fopen(path, "r");
+	if (!fp) {
+		warn("Failed opening file %s for reading", path);
+		return 1;
+	}
+
+	if (!fgets(buf, len, fp)) {
+		warn("Failed reading file %s", path);
+		rc = 1;
+	} else {
+		rc = 0;
+	}
+
+	return fclose(fp) || rc;
+}
 
 static int bypass_relay(char *val)
 {
-	char relay_path[512];
-	FILE *fp = NULL;
-	int retval = 1;
-
-	snprintf(relay_path, sizeof(relay_path), RELAY_PATH "value");
-
-	if (access(relay_path, F_OK) != 0) {
-		fprintf(stderr, "Could not access file %s. E:%s\n",
-			relay_path,
-			strerror(errno));
-		goto cleanup;
-	}
-
-	fp = fopen(relay_path, "w");
-	if (!fp) {
-		fprintf(stderr, "Could not open file %s. E:%s\n",
-			relay_path,
-			strerror(errno));
-		goto cleanup;
-	}
-
-	fprintf(fp, "%s\n", val);
-	retval = 0;
-
-cleanup:
-	if (fp != NULL)
-		fclose(fp);
-
-	return retval;
+	return fwritef(val, RELAY_PATH "value");
 }
 
 static int flash_led(char *val, char *port)
 {
-	char led_path[512];
-	FILE *fp = NULL;
-	int retval = 1;
-
-	snprintf(led_path, sizeof(led_path), LED_PATH "%s/trigger", port);
-
-	if (access(led_path, F_OK) != 0) {
-		fprintf(stderr, "Could not access file %s. E:%s\n",
-			led_path,
-			strerror(errno));
-		goto cleanup;
-	}
-
-	fp = fopen(led_path, "w");
-	if (!fp) {
-		fprintf(stderr, "Could not open file %s. E:%s\n",
-			led_path,
-			strerror(errno));
-		goto cleanup;
-	}
-
-	fprintf(fp, "%s", val);
-	retval = 0;
-
-cleanup:
-	if (fp != NULL)
-		fclose(fp);
-
-	return retval;
+	return fwritef(val, LED_PATH "%s/trigger", port);
 }
 
-static int set_led(int val, char *port)
+static int set_led(char *val, char *port)
 {
-	char led_path[512];
-	FILE *fp = NULL;
-	int retval = 1;
-
-	snprintf(led_path, sizeof(led_path), LED_PATH "%s/brightness", port);
-
-	if (access(led_path, F_OK) != 0) {
-		fprintf(stderr, "Could not access file %s. E:%s\n",
-			led_path,
-			strerror(errno));
-		goto cleanup;
-	}
-
-	fp = fopen(led_path, "w");
-	if (!fp) {
-		fprintf(stderr, "Could not open file %s. E:%s\n",
-			led_path,
-			strerror(errno));
-		goto cleanup;
-	}
-
-	fprintf(fp, "%d\n", val);
-	retval = 0;
-
-cleanup:
-	if (fp != NULL)
-		fclose(fp);
-
-	return retval;
+	return fwritef(val, LED_PATH "%s/brightness", port);
 }
 
-static int get_led(int *val, char *port)
+static int get_led(char *buf, size_t len, char *port)
 {
-	char led_value[256];
-	char led_path[512];
-	FILE *fp = NULL;
-	int retval = 1;
-
-	snprintf(led_path, sizeof(led_path), LED_PATH "%s/brightness", port);
-
-	if (access(led_path, F_OK) != 0) {
-		fprintf(stderr, "Could not access file %s. E:%s\n",
-			led_path,
-			strerror(errno));
-		goto cleanup;
-	}
-
-	fp = fopen(led_path, "r");
-	if (!fp) {
-		fprintf(stderr, "Could not open file %s. E:%s\n",
-			led_path,
-			strerror(errno));
-		goto cleanup;
-	}
-
-	if ((fgets(led_value, sizeof(led_value), fp)) == NULL) {
-		fprintf(stderr, "Could not read led value. E:%s\n", strerror(errno));
-		goto cleanup;
-	}
-
-	*val = atoi(led_value);
-	retval = 0;
-
-cleanup:
-	if (fp != NULL)
-		fclose(fp);
-
-	return retval;
+	return freadf(buf, len, LED_PATH "%s/brightness", port);
 }
 
-static int usage(int ret, char *prog)
+static int usage(int rc, char *prog)
 {
-	fprintf(stderr, "\nUsage: %s [OPTIONS]\n\n"
-		"  -b         Disable(2) or Enable(1) bypass relays\n"
-		"  -c         Clear LED or relay value to 0\n"
-		"  -f         Start flashing LED\n"
-		"  -g         Get LED or relay value\n"
-		"  -h         Show summary of command line options and exit\n"
-		"  -s         Set LED or relay on\n"
-		"  -v         Show program version\n"
+	fprintf(rc ? stderr : stdout,
+		"Usage: %s [OPTIONS]\n\n"
+		"  -b VAL   Disable(2) or Enable(1) bypass relays\n"
+		"  -c LED   Clear LED or relay value to 0\n"
+		"  -f LED   Start flashing LED\n"
+		"  -g LED   Get LED or relay value\n"
+		"  -h       Show this help text\n"
+		"  -s LED   Set LED or relay on\n"
+		"  -v       Show program version\n"
 		"\n"
-		"Example usage:\n"
-		"Flash led:   %s -f ethX5:yellow:state\n"
-		"Set led ON:  %s -s ethX6:yellow:state\n"
-		"Clear led:   %s -c ethX5:yellow:state\n"
-		"Disable bypass: %s -b 2\n"
-		"Enable bypass:  %s -b 1\n"
+		"Examples:\n"
+		"  Flash LED      : %s -f ethX5:yellow:state\n"
+		"  Set LED        : %s -s ethX6:yellow:state\n"
+		"  Clear LED      : %s -c ethX5:yellow:state\n"
+		"  Disable bypass : %s -b 2\n"
+		"  Enable bypass  : %s -b 1\n"
 		"\n", prog, prog, prog, prog, prog, prog);
-	return ret;
+
+	return rc;
 }
 
 int main(int argc, char *argv[])
 {
 	char *prog, *ptr;
-	int c, val;
+	char val[128];
+	int c;
 
 	prog = argv[0];
 	ptr = strrchr(prog, '/');
@@ -180,58 +145,43 @@ int main(int argc, char *argv[])
 	while ((c = getopt(argc, argv, "b:c:f:g:hs:v")) != EOF) {
 		switch (c) {
 		case 'b':
-			if (!bypass_relay(optarg)) {
-				fprintf(stderr, "Bypass relay is set to %s\n",
-					optarg);
-			} else {
-				fprintf(stderr, "Failed setting bypass relay\n");
-				return 1;
-			}
-			return 0;
+			if (bypass_relay(optarg))
+				errx(1, "Failed setting bypass relay");
+			break;
+
 		case 'c':
-			if (!set_led(0, optarg)) {
-				flash_led("none", optarg);
-				fprintf(stderr, "LED is cleared\n");
-			} else {
-				fprintf(stderr, "Failed clearing LED\n");
-				return 1;
-			}
-			return 0;
+			if (!set_led("0", optarg))
+				errx(1, "Failed clearing LED %s", optarg);
+			flash_led("none", optarg);
+			break;
+
 		case 'f':
-			if (!flash_led("timer", optarg)) {
-				fprintf(stderr, "LED is flashing\n");
-			} else {
-				fprintf(stderr, "Failed flashing LED\n");
-				return 1;
-			}
-			return 0;
+			if (!flash_led("timer", optarg))
+				errx(1, "Failed flashing LED %s", optarg);
+			break;
+
 		case 'g':
-			if (!get_led(&val, optarg)) {
-				fprintf(stderr, "value of LED is %d\n",
-					val);
-			} else {
-				fprintf(stderr, "Failed getting value\n");
+			if (!get_led(val, sizeof(val), optarg))
 				return 1;
-			}
-			return 0;
+			puts(val);
+			break;
+
 		case 'h':
 			return usage(0, prog);
+
 		case 's':
-			if (!set_led(1, optarg)) {
-				fprintf(stderr, "LED is set\n");
-			} else {
-				fprintf(stderr, "Failed setting LED\n");
-				return 1;
-			}
-			return 0;
+			if (!set_led("1", optarg))
+				errx(1, "Failed setting LED %s", optarg);
+			break;
+
 		case 'v':
-			fprintf(stderr, "%s", VERSION);
-			return 0;
+			puts(VERSION);
+			break;
+
 		default:
 			return usage(1, prog);
 		}
 	}
 
-	return 1;
+	return 0;
 }
-

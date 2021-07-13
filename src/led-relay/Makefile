@@ -1,10 +1,36 @@
-CFLAGS += -Wall -Wextra -Werror -Wno-unused-parameter -Wno-strict-aliasing
-CPPFLAGS += -D_GNU_SOURCE
-# LOADLIBES += 
+RELEASE   ?= $(shell git describe --tags)
+EXEC      := led-relay
+OBJS      := led-relay.o
+SRCS      := $(OBJS:.o=.c)
+DEPS      := $(addprefix .,$(SRCS:.c=.d))
+CFLAGS    += -W -Wall -Wextra -Werror
+CPPFLAGS  += -D_GNU_SOURCE -DVERSION=\"$(RELEASE)\"
 
-all: led-relay
+.%.d: %.c
+	@$(SHELL) -ec "$(CC) -MM $(CFLAGS) $(CPPFLAGS) $<	\
+		| sed 's,.*: ,$*.o $@ : ,g' > $@;		\
+		[ -s $@ ] || rm -f $@"
 
-led-relay: led-relay.c
+all: $(EXEC)
+
+$(EXEC): $(OBJS)
+
+clean:
+	$(RM) $(OBJS) $(EXEC)
+
+distclean: clean
+	$(RM) *.o *.bak *~
 
 install:
 	@cp led-relay $(DESTDIR)/$(PREFIX)/sbin/
+
+uninstall:
+	$(RM) $(DESTDIR)/$(PREFIX)/sbin/
+
+.PHONY: all clean distclean install
+
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),distclean)
+-include $(DEPS)
+endif
+endif
