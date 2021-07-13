@@ -1,22 +1,35 @@
-# LED and relay demo application
+LED and Relay Demo Application
+------------------------------
 
-The `led-relay` application demonstrates how to flash the LEDs on a device
-and how to enable or disable the bypass relays.
+The `led-relay` application demonstrates how to flash the LEDs on a
+device and how to enable or disable the bypass relays.
 
-## Limitations
 
-From the `WeOS host system` a path is shared to the `led device file` for a 
-physical port and the path is then mounted in the container when LXC starts 
-the container. 
-This results in the limitation that access to physical leds and relays are not 
-atomic and no synchronization is done between containers or Host. 
-All container app's having a shared path to the device file can alter its value.
+Limitations
+-----------
 
-## Hardware control
-In the file system path `/sys/class/` we can see hardware on the device we 
-can interact with. Interaction is done by reading and writing to device files.
+From the WeOS host system the path `/sys/class/leds` is shared with the
+container application when LXC starts the container.  This results in a
+limitation that access to physical LEDs and relays are not atomic and no
+synchronization is done between containers or Host.  All container apps
+having a shared path to the device file can alter any LED.
 
-```bash
+Usually this is not a problem, since a set of ports, e.g. relay controlled
+ports, are at the same time "shared" with the container application.  The
+ports behave a bit differently, compared to files, and are actually moved
+to the container.  Being invisible to both the host system and any other
+container application means other WeOS functions cannot use these ports,
+and will also not be interested in the accompanying LEDs and relays.
+
+
+Hardware Control
+----------------
+
+In the file system path `/sys/class/` we can see hardware on the device
+we can interact with.  Interaction is done by reading and writing to
+device files:
+
+```sh
 admin@viper-65-f7-80:/sys/class # ls
 bdi           i2c-dev       net           rtc           usbmon
 block         input         pci_bus       scsi_device   vc
@@ -28,9 +41,9 @@ hwmon         misc          rapidio_port  tty
 i2c-adapter   mtd           relay-ctrl    udc
 ```
 
-Looking inside the `/sys/class/leds/` directory we find all ports on the 
-device represented as a directory:
-```bash
+In the `/sys/class/leds/` directory we find all system LEDs:
+
+```sh
 admin@viper-65-f7-80:/sys/class/leds # ls
 bypass1:green       ethX4:green:link    gnss:green
 bypass1:red         ethX4:yellow:state  gnss:red
@@ -44,115 +57,127 @@ ethX3:green:link    ethX8:green:link
 ethX3:yellow:state  ethX8:yellow:state
 ```
 
-Inside a ports directory we see the files for controlling its LED.
+Each entry is a directory with files for controlling an LED.
 
-```bash
+```sh
 admin@viper-65-f7-80:/sys/class/leds # ls ethX1\:green\:link/
 brightness      max_brightness  subsystem       uevent
 device          power           trigger
 ```
 
-For example if we look in the max_brightness file we find the value 255, and 
-if the device has a led supporting different brightness levels we cat write 
-a value between 0 and 255 to the brightness file. 
-If the led does not support brightness levels every value greater 
-than 0 will set the led.
+For example, in the `max_brightness` file we find the value 255, and if
+the device has a LED supporting different brightness levels we can write
+a value between 0 and 255 to the brightness file.  If the LED does not
+support brightness levels every value greater than 0 sets the led.
 
-One other option is the trigger. 
-If looking in the trigger file we find a list of values to set, and `[none]` 
-is the current value.
-```bash
-admin@viper-65-f7-80:/sys/class/leds # cat ethX1\:green\:link/trigger 
-[none] kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock dc1-online dc2-online timer ethX1-stp ethX2-stp ethX3-stp ethX4-stp ethX5-stp ethX6-stp ethX7-stp ethX8-stp bypass-relay
+One other option is the `trigger`.  Reading the `trigger` file we find
+a the list of supported values to set, with brackets `[..]` surrounding
+the currectly set value.  Here `[none]` is the current value.
+
+```sh
+admin@viper-65-f7-80:/sys/class/leds # cat ethX1\:green\:link/trigger
+[none] kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock kbd-shiftlock
+kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock kbd-shiftrlock
+kbd-ctrlllock kbd-ctrlrlock dc1-online dc2-online timer ethX1-stp
+ethX2-stp ethX3-stp ethX4-stp ethX5-stp ethX6-stp ethX7-stp ethX8-stp
+bypass-relay
 ```
-In the same way we can control the bypass relays by writing to the device file 
-`/sys/class/relay-ctrl/bypass-relay/value`.
-Writing "2" to this file disables the bypass relays and writing a "1" enables.
 
-## Configuration of demo application
-
-To create and configure a container application `bar` of image 
-type `led-relay` follow these steps:
+The bypass relay(s) are supported in the same way.  We can control them
+writing to the device file `/sys/class/relay-ctrl/bypass-relay/value`.
+Writing "2" to this file disables the bypass relays and writing a "1"
+enables it.
 
 
-```bash
-viper-65-f7-e0:/#> config app bar led-relay
+Setting Up the Demo Application
+-------------------------------
 
-viper-65-f7-e0:/config/app-bar/#> sh
+To create and configure a `led-relay` container application in WeOS,
+follow these steps:
+
+```sh
+viper-65-f7-e0:/#> configure
+viper-65-f7-e0:/config/#> app led-relay
+viper-65-f7-e0:/config/app-led-relay/#> sh
 Status       : Enabled
-Name         : bar
+Name         : led-relay
 Description  : 
 Image        : led-relay
 Init cmd     : /sbin/init
 Loglevel     : 5
                                                                               
 Shared Resources
-TYPE  HOST              GUEST             OPTS                                
-veth  bar               eth0 
+TYPE  HOST              GUEST             OPTS
+veth  led-relay         eth0
 ```
 
 By default all container applications have a veth pair created that allows 
 them to connect to the Host. 
-To setup a shared path between the Host and the container we use 
-the `shared` command. 
-Symlinks in /sys/class/leds/ are linking to files in /sys/devices/ and this 
-means that we have to share the /sys path between Host and container.
 
-```bash
-viper-65-f7-e0:/config/app-bar/#> share path /sys as /sys
+To set up a shared file system resource between the Host system and the
+container we use the `share` command.  Symlinks in `/sys/class/leds/`
+link to files in `/sys/devices/`, which means we have to share the full
+`/sys` path with the container.
 
-viper-65-f7-e0:/config/app-bar/#> sh
+```sh
+viper-65-f7-e0:/config/app-led-relay/#> share path /sys as /sys
+viper-65-f7-e0:/config/app-led-relay/#> sh
 Status       : Enabled
-Name         : bar
+Name         : led-relay
 Description  : 
 Image        : led-relay
 Init cmd     : /sbin/init
 Loglevel     : 5
                                                                               
 Shared Resources
-TYPE  HOST              GUEST             OPTS                                
+TYPE  HOST              GUEST             OPTS
 path  /sys              /sys
-veth  bar               eth0  
+veth  led-relay         eth0
 ```
 
-Leave configuration and save running configuration to start configuration.
+Leave configuration and save running configuration to start
+configuration.
 
-When leaving configuration WeOS starts the container and to list all 
-started containers use:
-```
-viper-65-f7-80:/#> sh app
-NAME STATE   AUTOSTART GROUPS IPV4 IPV6 UNPRIVILEGED                          
-bar  RUNNING 1         -      -    -    false
+```sh
+viper-65-f7-e0:/config/app-led-relay/#> leave
+viper-65-f7-80:/#> copy run start
 ```
 
-The command `app attach <container>` lets us attach to the container and 
-run commands in it. *(user name is root)*
+Upon leaving the configuration context, WeOS starts the container.  To
+list all started containers use:
 
-Run the `led-relay` application with flag -h to list options:
-
+```sh
+viper-65-f7-80:/#> show app
+NAME       STATE   AUTOSTART GROUPS IPV4 IPV6 UNPRIVILEGED
+led-relay  RUNNING 1         -      -    -    false
 ```
+
+The command `app attach led-relay` lets us attach to the container and
+run commands in it. *The username to login is `root`, no password set up
+by default.*
+
+Run the `led-relay` application with flag `-h` to list options:
+
+```sh
 Usage: led-relay [OPTIONS]
-  -b         Disable(2) or Enable(1) bypass relays
-  -c         Clear LED or relay value to 0
-  -f         Start flashing LED
-  -g         Get LED or relay value
-  -h         Show summary of command line options and exit
-  -s         Set LED or relay on
-  -v         Show program version
+  -b VAL   Disable(2) or Enable(1) bypass relays
+  -c LED   Clear LED or relay value to 0
+  -f LED   Start flashing LED
+  -g LED   Get LED or relay value
+  -h       Show this help text
+  -s LED   Set LED or relay on
+  -v       Show program version
 
-Example usage:
-Flash led:   led-relay -f ethX5:yellow:state
-Set led ON:  led-relay -s ethX6:yellow:state
-Clear led:   led-relay -c ethX5:yellow:state
-Disable bypass: led-relay -b 2
-Enable bypass:  led-relay -b 1
+Examples:
+  Flash LED      : led-relay -f ethX5:yellow:state
+  Set LED        : led-relay -s ethX6:yellow:state
+  Clear LED      : led-relay -c ethX5:yellow:state
+  Disable bypass : led-relay -b 2
+  Enable bypass  : led-relay -b 1
 ```
 
-## Executing a command in the container from the Host
-From the Host shell command line we can execute a command inside the 
-container shell using lxc-attach.
+**Example:**
 
-Example:
-```
-lxc-attach -n bar -- led-relay -s ethX8:yellow:state
+```sh
+~# led-relay -s ethX8:yellow:state
 ```
