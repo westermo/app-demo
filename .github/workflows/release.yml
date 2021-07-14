@@ -5,6 +5,9 @@ on:
     tags:
       - '[0-9]*.*'
 
+env:
+  RELEASE: ${{ github.ref }}
+
 jobs:
   release:
     name: Create GitHub release
@@ -44,9 +47,6 @@ jobs:
             dl-${{ matrix.platform }}-${{ matrix.demo }}-
             dl-${{ matrix.platform }}-
             dl-
-      - name: Set RELEASE variable
-        run: |
-          echo ::set-output name=RELEASE::${GITHUB_REF#refs/tags/}
       - name: Configure & Build
         run: |
           make ${{ matrix.demo }}_${{ matrix.platform }}_defconfig

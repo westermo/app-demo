@@ -9,6 +9,7 @@ bmake   = $(MAKE) -C netbox/buildroot O=$(O) $1
 
 
 all: $(config) netbox/buildroot/Makefile
+	@echo "Building app-demo, (RELEASE=$(RELEASE))"
 	@+$(call bmake,$@)
 
 $(config):
