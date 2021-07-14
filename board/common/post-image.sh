@@ -8,7 +8,8 @@
 err=0
 ver=""
 if [ -n "$RELEASE" ]; then
-    ver="-$($BR2_EXTERNAL_NETBOX_PATH/bin/mkversion)"
+    # NOTE: Must use `-f $BR2_EXTERNAL` here to get, e.g. app-demo GIT version
+    ver="-$($BR2_EXTERNAL_NETBOX_PATH/bin/mkversion -f $BR2_EXTERNAL)"
 
     if [ "$RELEASE" != "$ver" ]; then
        echo "==============================================================================="
