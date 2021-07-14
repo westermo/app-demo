@@ -1,0 +1,60 @@
+name: Release General
+
+on:
+  push:
+    tags:
+      - '[0-9]*.*'
+
+jobs:
+  release:
+    name: Create GitHub release
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      release_id: ${{ steps.create_release.outputs.id }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create release ...
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: app-demo ${{ github.ref }}
+          draft: false
+          prerelease: false
+  build:
+    name: ${{ matrix.demo }} demo for ${{ matrix.platform }} platform
+    needs: release
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        demo: [backbone, dhcp-boot, led-relay]
+        platform: [coronet, dagger, zero]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: dl/
+          key: dl-${{ matrix.platform }}-${{ matrix.demo }}-${{ hashFiles('.git/modules/netbox/HEAD', 'configs/*', 'package/*/*.hash') }}
+          restore-keys: |
+            dl-${{ matrix.platform }}-${{ matrix.demo }}-
+            dl-${{ matrix.platform }}-
+            dl-
+      - name: Set RELEASE variable
+        run: |
+          echo ::set-output name=RELEASE::${GITHUB_REF#refs/tags/}
+      - name: Configure & Build
+        run: |
+          make ${{ matrix.demo }}_${{ matrix.platform }}_defconfig
+          make
+      - name: Upload release artifacts ...
+        uses: skx/github-action-publish-binaries@release-0.15
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          releaseId: ${{ needs.release.outputs.release_id }}
+          args: output/images/*
