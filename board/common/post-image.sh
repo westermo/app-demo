@@ -9,11 +9,11 @@ err=0
 ver=""
 if [ -n "$RELEASE" ]; then
     # NOTE: Must use `-f $BR2_EXTERNAL` here to get, e.g. app-demo GIT version
-    ver="-$($BR2_EXTERNAL_NETBOX_PATH/bin/mkversion -f $BR2_EXTERNAL)"
+    ver="-$($BR2_EXTERNAL_NETBOX_PATH/bin/mkversion -f $BR2_EXTERNAL_DEMO_PATH)"
 
-    if [ "$RELEASE" != "$ver" ]; then
+    if [ "-$RELEASE" != "$ver" ]; then
        echo "==============================================================================="
-       echo "WARNING: Release verision '$RELEASE' does not match tag '$ver'!"
+       echo "WARNING: Release verision '$RELEASE' does not match latest tag '$ver'!"
        echo "==============================================================================="
        err=1
     fi
