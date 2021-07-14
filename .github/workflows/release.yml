@@ -6,7 +6,7 @@ on:
       - '[0-9]*.*'
 
 env:
-  RELEASE: ${{ github.ref }}
+  RELEASE: ${GITHUB_REF#refs/tags/}
 
 jobs:
   release:
