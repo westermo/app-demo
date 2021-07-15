@@ -15,6 +15,15 @@ jobs:
       release_id: ${{ steps.create_release.outputs.id }}
     steps:
       - uses: actions/checkout@v2
+      - name: Set Release Variables
+        id: vars
+        run: |
+          ver=${GITHUB_REF#refs/tags/}
+          if echo $ver | grep -qE '[0-9.]+(-alpha|-beta|-rc)[0-9]*'; then
+            echo ::set-output name=pre::true
+          else
+            echo ::set-output name=pre::false
+          fi
       - name: Create release ...
         id: create_release
         uses: actions/create-release@v1
@@ -24,7 +33,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: app-demo ${{ github.ref }}
           draft: false
-          prerelease: false
+          prerelease: ${{ steps.vars.outputs.pre }}
   build:
     name: ${{ matrix.demo }} demo for ${{ matrix.platform }} platform
     needs: release
@@ -36,6 +45,10 @@ jobs:
         platform: [coronet, dagger, zero]
     steps:
       - uses: actions/checkout@v2
+      - name: Set Build Variables
+        id: vars
+        run: |
+          echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
       - uses: actions/cache@v2
         with:
           path: dl/
@@ -44,10 +57,6 @@ jobs:
             dl-${{ matrix.platform }}-${{ matrix.demo }}-
             dl-${{ matrix.platform }}-
             dl-
-      - name: Set Build Variables
-        id: vars
-        run: |
-          echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
       - name: Configure & Build
         env:
           RELEASE: ${{ steps.vars.outputs.tag }}
