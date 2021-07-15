@@ -24,6 +24,6 @@ dir=$(dirname "$img")
 md5=$dir/$(basename "$img" .img).md5
 
 mv "$BINARIES_DIR"/rootfs.squashfs "$img"
-sha1sum "$img" > "$md5"
+md5sum "$img" > "$md5"
 
 exit $err
