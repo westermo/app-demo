@@ -150,18 +150,18 @@ int main(int argc, char *argv[])
 			break;
 
 		case 'c':
-			if (!set_led("0", optarg))
+			if (set_led("0", optarg))
 				errx(1, "Failed clearing LED %s", optarg);
 			flash_led("none", optarg);
 			break;
 
 		case 'f':
-			if (!flash_led("timer", optarg))
+			if (flash_led("timer", optarg))
 				errx(1, "Failed flashing LED %s", optarg);
 			break;
 
 		case 'g':
-			if (!get_led(val, sizeof(val), optarg))
+			if (get_led(val, sizeof(val), optarg))
 				return 1;
 			puts(val);
 			break;
@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
 			return usage(0, prog);
 
 		case 's':
-			if (!set_led("1", optarg))
+			if (set_led("1", optarg))
 				errx(1, "Failed setting LED %s", optarg);
 			break;
 
