@@ -2,7 +2,10 @@ menu "Branding"
 
 config DEMO_VENDOR_ID
 	string "Single word lower-case identifier for the operating system"
-	default "backbone"
+	default "backbone" 		if BR2_PACKAGE_BACKBONE
+	default "dhcp-boot"		if BR2_PACKAGE_DHCP_BOOT
+	default "led-relay"		if BR2_PACKAGE_LED_RELAY
+	default "application"
 	help
 	  A lower-case string (no spaces or other characters outside of
           0–9, a–z, '.', '_' and '-') identifying the operating system,
@@ -14,7 +17,7 @@ config DEMO_VENDOR_ID
 
 config DEMO_VENDOR_NAME
 	string "String identifier for the operating system"
-	default "Application"
+	default "AppDemo"
 	help
 	  Used for identifying the OS, e.g. as NAME in /etc/os-release
 

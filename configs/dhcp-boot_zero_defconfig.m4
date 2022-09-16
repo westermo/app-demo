@@ -1,5 +1,5 @@
 define([os_rootfs_overlay], $(BR2_EXTERNAL_DEMO_PATH)/board/demo/$(DEMO_VENDOR_ID)/rootfs)
-include([branding.m4])
 include([netbox_app_zero_defconfig.m4])
 include([override.m4])
-include([backbone.m4])
+include([dhcp-boot.m4])
+include([branding.m4])

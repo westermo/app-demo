@@ -4,8 +4,6 @@ dnl DEMO_VENDOR_ID := "backbone"
 
 define(DEMO_VENDOR_ID,"backbone")
 define(DEMO_VENDOR_NAME, "Backbone Application")
-dnl define(DEMO_VENDOR_DESC, "")
-dnl define(DEMO_VENDOR_VERSION, "")
 
 BR2_PACKAGE_BACKBONE=y
 BR2_PACKAGE_DNSMASQ=y

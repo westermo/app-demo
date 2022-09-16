@@ -1,6 +1,10 @@
 BR2_DL_DIR="$(BR2_EXTERNAL_DEMO_PATH)/dl"
 BR2_CCACHE_DIR="$(BR2_EXTERNAL_DEMO_PATH)/.buildroot-ccache"
 
+define(DEMO_VENDOR_HOME, "https://github.com/westermo/app-demo/")
+define(DEMO_VENDOR_DESC, "Application Demo - Westermo LXC container")
+define(DEMO_VENDOR_VERSION, "`$BR2_EXTERNAL_NETBOX_PATH/bin/mkversion $BR2_EXTERNAL_DEMO_PATH`")
+
 dnl Apply NetBox patches first, then AppDemo patches
 BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_NETBOX_PATH)/patches $(BR2_EXTERNAL_DEMO_PATH)/patches"
 
