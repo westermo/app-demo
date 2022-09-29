@@ -1,8 +1,10 @@
 BR2_TARGET_GENERIC_HOSTNAME="led-relay"
 
-define(DEMO_VENDOR_ID,"led-relay")
-define(DEMO_VENDOR_NAME, "LED-Relay Application")
-
+NETBOX_VENDOR_ID="led-relay"
+NETBOX_VENDOR_NAME="LED-Relay application"
+NETBOX_VENDOR_DESC="LED-Relay Demo - Westermo LXC container"
+NETBOX_VENDOR_HOME="https://github.com/westermo/app-demo/"
+NETBOX_VENDOR_VERSION="`$BR2_EXTERNAL_NETBOX_PATH/bin/mkversion $BR2_EXTERNAL_DEMO_PATH`"
 
 BR2_PACKAGE_DNSMASQ=y
 BR2_PACKAGE_DROPBEAR=y

@@ -1,7 +1,10 @@
 BR2_TARGET_GENERIC_HOSTNAME="dhcp-boot"
 
-define(DEMO_VENDOR_ID,"dhcp-boot")
-define(DEMO_VENDOR_NAME, "DHCP-boot Application")
+NETBOX_VENDOR_ID="dhcp-boot"
+NETBOX_VENDOR_NAME="DHCP-boot application"
+NETBOX_VENDOR_DESC="DHCP-boot Demo - Westermo LXC container"
+NETBOX_VENDOR_HOME="https://github.com/westermo/app-demo/"
+NETBOX_VENDOR_VERSION="`$BR2_EXTERNAL_NETBOX_PATH/bin/mkversion $BR2_EXTERNAL_DEMO_PATH`"
 
 BR2_PACKAGE_DNSMASQ=y
 BR2_PACKAGE_DROPBEAR=y

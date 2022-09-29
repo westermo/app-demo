@@ -1,9 +1,10 @@
 BR2_TARGET_GENERIC_HOSTNAME="backbone"
 
-dnl DEMO_VENDOR_ID := "backbone"
-
-define(DEMO_VENDOR_ID,"backbone")
-define(DEMO_VENDOR_NAME, "Backbone Application")
+NETBOX_VENDOR_ID="backbone"
+NETBOX_VENDOR_NAME="Backbone application"
+NETBOX_VENDOR_DESC="Backbone Demo - Westermo LXC container"
+NETBOX_VENDOR_HOME="https://github.com/westermo/app-demo/"
+NETBOX_VENDOR_VERSION="`$BR2_EXTERNAL_NETBOX_PATH/bin/mkversion $BR2_EXTERNAL_DEMO_PATH`"
 
 BR2_PACKAGE_BACKBONE=y
 BR2_PACKAGE_DNSMASQ=y
