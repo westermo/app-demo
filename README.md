@@ -33,6 +33,7 @@ of the box, other variants are possible, but require custom setup:
 | PowerPC (T1023)  | Coronet      |
 | ARM Cortex-A9    | Dagger       |
 | Intel/AMD x86_64 | Zero         |
+| aarch64          | Envoy        |
 
 
 Available Demos
@@ -43,11 +44,11 @@ the README of each demo and quick-links to the latest build for each of
 the supported platforms.  The same builds are also available directly
 from the Actions tab on the GitHub project.
 
-| **Description**   | **Coronet**           | **Dagger**           | **Zero**           |
-|-------------------|-----------------------|----------------------|--------------------|
-| [Backbone][]  App | [backbone-coronet][]  | [backbone-dagger][]  | [backbone-zero][]  |
-| [DHCP Boot][] App | [dhcp-boot-coronet][] | [dhcp-boot-dagger][] | [dhcp-boot-zero][] |
-| [LED/Relay][] App | [led-relay-coronet][] | [led-relay-dagger][] | [led-relay-zero][] |
+| **Description**   | **Coronet**           | **Dagger**           | **Zero**           | **Envoy**          |
+|-------------------|-----------------------|----------------------|--------------------|--------------------|
+| [Backbone][]  App | [backbone-coronet][]  | [backbone-dagger][]  | [backbone-zero][]  | [backbone-envoy][]  |
+| [DHCP Boot][] App | [dhcp-boot-coronet][] | [dhcp-boot-dagger][] | [dhcp-boot-zero][] | [dhcp-boot-envoy][] |
+| [LED/Relay][] App | [led-relay-coronet][] | [led-relay-dagger][] | [led-relay-zero][] | [led-relay-envoy][] |
 
 The default login credentials for all demo apps are `root` without any
 password.  To enable remote login using SSH, you need to set a password
@@ -125,11 +126,14 @@ target architecture.
 [backbone-coronet]:  https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-backbone-coronet.zip
 [backbone-dagger]:   https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-backbone-dagger.zip
 [backbone-zero]:     https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-backbone-zero.zip
+[backbone-envoy]:     https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-backbone-envoy.zip
 
 [dhcp-boot-coronet]: https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-dhcp-boot-coronet.zip
 [dhcp-boot-dagger]:  https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-dhcp-boot-dagger.zip
 [dhcp-boot-zero]:    https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-dhcp-boot-zero.zip
+[dhcp-boot-envoy]:    https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-dhcp-boot-envoy.zip
 
 [led-relay-coronet]: https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-led-relay-coronet.zip
 [led-relay-dagger]:  https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-led-relay-dagger.zip
 [led-relay-zero]:    https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-led-relay-zero.zip
+[led-relay-envoy]:    https://nightly.link/westermo/app-demo/workflows/ci/master/app-demo-led-relay-envoy.zip
