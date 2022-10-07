@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         demo: [backbone, dhcp-boot, led-relay]
-        platform: [coronet, dagger, zero]
+        platform: [coronet, dagger, zero, envoy]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
