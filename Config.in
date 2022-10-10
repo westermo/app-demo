@@ -1,5 +1,13 @@
 menu "Branding"
 
+config DEMO_PLATFORM
+	string
+	default "coronet" if BR2_powerpc
+	default "dagger"  if BR2_arm
+	default "zero"    if BR2_x86_64
+	default "envoy"   if BR2_aarch64
+	default BR2_ARCH
+
 config DEMO_VENDOR_ID
 	string "Single word lower-case identifier for the operating system"
 	default "backbone" 		if BR2_PACKAGE_BACKBONE
