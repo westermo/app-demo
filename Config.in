@@ -1,3 +1,5 @@
+menu "Branding"
+
 config DEMO_PLATFORM
 	string
 	default "coronet" if BR2_powerpc
@@ -8,7 +10,10 @@ config DEMO_PLATFORM
 
 config DEMO_VENDOR_ID
 	string "Single word lower-case identifier for the operating system"
-	default "backbone"
+	default "backbone" 		if BR2_PACKAGE_BACKBONE
+	default "dhcp-boot"		if BR2_PACKAGE_DHCP_BOOT
+	default "led-relay"		if BR2_PACKAGE_LED_RELAY
+	default "application"
 	help
 	  A lower-case string (no spaces or other characters outside of
           0–9, a–z, '.', '_' and '-') identifying the operating system,
@@ -20,13 +25,13 @@ config DEMO_VENDOR_ID
 
 config DEMO_VENDOR_NAME
 	string "String identifier for the operating system"
-	default "Backbone"
+	default "AppDemo"
 	help
 	  Used for identifying the OS, e.g. as NAME in /etc/os-release
 
 config DEMO_VENDOR_DESC
 	string "Pretty operating system name, format for presentation to user"
-	default "Backbone Demo"
+	default "Application Demo - Westermo LXC container"
 	help
 	  Used for identifying the OS, e.g. as PRETTY_NAME in /etc/os-release
 
@@ -47,6 +52,8 @@ config DEMO_VENDOR_VERSION
            generated filenames.
 
 	   Used for VERSION and VERSION_ID in /etc/os-release
+
+endmenu
 
 menu "Packages"
 

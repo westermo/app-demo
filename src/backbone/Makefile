@@ -1,4 +1,4 @@
-CFLAGS += -Wall -Wextra -Werror -Wno-unused-parameter -Wno-strict-aliasing
+CFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-strict-aliasing
 # Needed for sendmmsg(2)
 CPPFLAGS += -D_GNU_SOURCE
 LOADLIBES += -lev -ljansson -lteam
