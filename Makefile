@@ -1,6 +1,6 @@
 export BR2_EXTERNAL	:= $(CURDIR):$(CURDIR)/netbox
-export PATH         := $(CURDIR)/utils:$(CURDIR)/netbox/utils:$(PATH)
-export M4PATH		:= $(CURDIR)/configs/include:$(CURDIR)/netbox/configs:$(CURDIR)/netbox/configs/include:$(M4PATH)
+export PATH		:= $(CURDIR)/utils:$(CURDIR)/netbox/utils:$(PATH)
+export M4PATH		:= $(CURDIR)/configs:$(CURDIR)/configs/include:$(CURDIR)/netbox/configs:$(CURDIR)/netbox/configs/include:$(M4PATH)
 
 # $(info $(BR2_EXTERNAL))
 
@@ -30,8 +30,8 @@ configs/%_defconfig: configs/%_defconfig.m4 | netbox/buildroot/Makefile
 	@gendefconfig -d $(@D) -i $(CURDIR)/configs -i $(CURDIR)/configs/include $(<F) >$@
 
 
-#%: netbox/buildroot/Makefile
-#	@+$(call bmake,$@)
+%: | netbox/buildroot/Makefile
+	@+$(call bmake,$@)
 
 netbox/buildroot/Makefile:
 	@git submodule update --init --recursive
