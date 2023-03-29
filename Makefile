@@ -30,8 +30,8 @@ configs/%_defconfig: configs/%_defconfig.m4 | netbox/buildroot/Makefile
 	@gendefconfig -d $(@D) -i $(CURDIR)/configs -i $(CURDIR)/configs/include $(<F) >$@
 
 
-%: netbox/buildroot/Makefile
-	@+$(call bmake,$@)
+#%: netbox/buildroot/Makefile
+#	@+$(call bmake,$@)
 
 netbox/buildroot/Makefile:
 	@git submodule update --init --recursive
