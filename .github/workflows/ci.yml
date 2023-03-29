@@ -14,8 +14,8 @@ jobs:
         demo: [backbone, dhcp-boot, led-relay]
         platform: [coronet, dagger, zero, envoy]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
         with:
           path: dl/
           key: dl-${{ matrix.platform }}-${{ matrix.demo }}-${{ hashFiles('.git/modules/netbox/HEAD', 'configs/*', 'package/*/*.hash') }}
@@ -28,7 +28,7 @@ jobs:
           make ${{ matrix.demo }}_${{ matrix.platform }}_defconfig
           make
       - name: Upload Application Image
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: app-demo-${{ matrix.demo }}-${{ matrix.platform }}
           path: output/images/*
